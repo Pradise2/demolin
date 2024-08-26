@@ -11,7 +11,7 @@ import wallet from './wallet.png'
 const Home = () => {
   const [userData, setUserData] = useState(null);
   const [userId, setUserId] = useState('001');
-  const [userName, setUserName] = useState(null);
+  const [userName, setUserName] = useState("Akin");
   const [buttonText, setButtonText] = useState("Start");
   const [showRCFarm, setShowRCFarm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -195,7 +195,7 @@ const Home = () => {
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
 
   return (
-    <div className="relative min-h-screen  bg-no-repeat bg-center bg-black text-white flex flex-col items-center p-4 space-y-6" >
+    <div className="relative min-h-screen bg-don bg-no-repeat bg-center bg-cover bg-black text-white flex flex-col items-center p-4 space-y-6" >
     <div className="absolute inset-0 bg-black bg-opacity-70"></div>
     <div className="relative w-11/12">
       <div className="flex flex-row justify-between">   
