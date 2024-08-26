@@ -15,7 +15,7 @@ import telegram  from './telegram.png';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState(null); // Replace with dynamic ID if possible
+  const [userId, setUserId] = useState('001'); // Replace with dynamic ID if possible
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
@@ -277,16 +277,15 @@ const test ={
   const handleStartClick = async (userId, taskId, link) => {
     setLoadingTask(taskId);
     console.log('Start button clicked for taskId:', taskId);
-  
+    
+    window.open(link, '_blank');
+    
     try {
       await axios.put('https://lunarapp.thelunarcoin.com/backend/api/specialtask/update', {
         userId,
         taskId,
       });
-      console.log('Updated task status to "started" for taskId:', taskId);
-  
-      window.open(link, '_blank');
-      console.log('Opened link in new tab:', link);
+     
   
       setTimeout(() => {
         setLoadingTask(null);
@@ -308,6 +307,9 @@ const test ={
     setLoadingTask(taskId);
     console.log('Start button clicked for taskId:', taskId);
   
+    // Open the link immediately
+    window.open(link, '_blank');
+  
     try {
       await axios.put('https://lunarapp.thelunarcoin.com/backend/api/dailytask/update', {
         userId,
@@ -315,23 +317,24 @@ const test ={
       });
       console.log('Updated task status to "started" for taskId:', taskId);
   
-      window.open(link, '_blank');
-      
       setTimeout(() => {
         setLoadingTask(null);
-  
         // Update the daily task's status to "claim"
         setDailyTask(prevTasks => prevTasks.map(dtask => 
           dtask.taskId === taskId ? { ...dtask, status: 'claim' } : dtask
         ));
-        
+  
         console.log('Task ready to claim:', taskId);
-      }, 17000);
+        setLoadingTask(null);
+      }, 17000); // 17 seconds delay
+  
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
     }
   };
+  
+  
 
   if (loading) {
     return (
