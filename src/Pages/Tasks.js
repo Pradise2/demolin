@@ -155,7 +155,7 @@ const test ={
     };
   }, [saveUserData]);
 
-  const handleClaimClick = async (taskId, reward) => {
+  const handleClaimClick = async (userId, taskId, reward) => {
     const task = specialTask.find(t => t.taskId === taskId);
   
     console.log('Claim button clicked for task:', task);
@@ -214,7 +214,7 @@ const test ={
     }
   };
 
-  const handleDailyClaim = async (taskId, reward) => {
+  const handleDailyClaim = async (userId, taskId, reward) => {
     const dtask = dailyTask.find(t => t.taskId === taskId);
   
     console.log('Claim button clicked for task:', dtask);
@@ -274,7 +274,7 @@ const test ={
   };
 
   
-  const handleStartClick = async (taskId, link) => {
+  const handleStartClick = async (userId, taskId, link) => {
     setLoadingTask(taskId);
     console.log('Start button clicked for taskId:', taskId);
   
@@ -304,7 +304,7 @@ const test ={
     }
   };
   
-  const handleDailyStart = async (taskId, link) => {
+  const handleDailyStart = async (userId, taskId, link) => {
     setLoadingTask(taskId);
     console.log('Start button clicked for taskId:', taskId);
   
@@ -423,7 +423,7 @@ const test ={
         <div className="flex items-center space-x-2">
           {dtaskStatus === 'start' && (
             <button 
-              onClick={() => handleDailyStart(dtask.taskId, dtask.linkz)} 
+              onClick={() => handleDailyStart(daily?.userId, dtask.taskId, dtask.linkz)} 
               className="bg-golden-moon text-white py-2 px-4 rounded-xl"
               disabled={loadingTask === dtask.taskId}
             >
@@ -436,7 +436,7 @@ const test ={
           )}
           {dtaskStatus === 'claim' && (
             <button 
-              onClick={() => handleDailyClaim(dtask.taskId, parseInt(dtask.reward))} 
+              onClick={() => handleDailyClaim(daily?.userId, dtask.taskId, parseInt(dtask.reward))} 
               className="bg-golden-moon text-white py-2 px-4 rounded-xl"
             >
               Claim
@@ -487,7 +487,7 @@ const test ={
         <div className="flex items-center space-x-2">
           {taskStatus === 'start' && (
             <button 
-              onClick={() => handleStartClick(task.taskId, task.linkz)} 
+              onClick={() => handleStartClick(special?.userId, task.taskId, task.linkz)} 
               className="bg-golden-moon text-white py-2 px-4 rounded-xl"
               disabled={loadingTask === task.taskId}
             >
@@ -500,7 +500,7 @@ const test ={
           )}
           {taskStatus === 'claim' && (
             <button 
-              onClick={() => handleClaimClick(task.taskId, parseInt(task.reward))} 
+              onClick={() => handleClaimClick(special?.userId, task.taskId, parseInt(task.reward))} 
               className="bg-golden-moon text-white py-2 px-4 rounded-xl"
             >
               Claim

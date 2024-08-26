@@ -10,13 +10,14 @@ import wallet from './wallet.png'
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState("001");
-  const [userName, setUserName] = useState("Akin");
+  const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState(null);
   const [buttonText, setButtonText] = useState("Start");
   const [showRCFarm, setShowRCFarm] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Clear local storage when the component mounts
     localStorage.clear();
   }, []);
 
@@ -172,42 +173,51 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-cover text-white p-4">
-        <div className="flex flex-col items-center space-y-4">
-          <ClipLoader color="#FFD700" size={60} speedMultiplier={1} />
+      <div
+        className="relative min-h-screen bg-black bg-blur-sm bg-don bg-center bg-no-repeat text-white flex items-center justify-center p-4 space-y-4"
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div 
+          className="absolute transform -translate-y-1/2 top-1/2 flex justify-center items-center"
+          style={{ top: '50%' }}
+        >
+          <ClipLoader 
+          color="#FFD700" 
+          size={100} 
+          speedMultiplier={1} />
         </div>
       </div>
     );
   }
+  
+  
 
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
 
   return (
-    <div className="relative min-h-screen bg-cove text-white flex flex-col items-center p-4 space-y-6" >
+    <div className="relative min-h-screen  bg-no-repeat bg-center bg-black text-white flex flex-col items-center p-4 space-y-6" >
     <div className="absolute inset-0 bg-black bg-opacity-70"></div>
     <div className="relative w-11/12">
-      <div className="flex ml-2 mr-2 flex-row justify-between">   
-        <img aria-hidden="true" alt="team-icon" src={coin2} width="40" height="40" />
+      <div className="flex flex-row justify-between">   
+      <p className="text-white flex items-center font-black text-xl text-center">Hi,&nbsp;
+          <span className="text-lg items-center font-normal">{userName}</span>
+        </p>
         <img aria-hidden="true" alt="team-icon" src={wallet} width="40" height="40" />
       </div>
-      <div className="flex mt-3">
-        <p className="text-white font-black text-xl text-center">Hi,&nbsp;
-          <span className="text-lg font-normal">{userName}</span>
-        </p>
-      </div>
+    
     </div>
   
     <div className="relative">
       <img src={coin} alt="LAR Coin" className="w-58 h-55 rounded-full" />
-      <div className="flex flex-col justify-center items-center space-y-1">
-        <p className="text-golden-moon font-medium text-xl">
+      <div className="flex mt-9 flex-row justify-center items-center ">
+        <p className="text-white font-medium text-2xl">
           {userData && isValidNumber(userData.FarmBalance) ? userData.FarmBalance.toLocaleString() : "0"}
         </p>
-        <p className="bg-custom bg-clip-text text-transparent text-2xl font-black">LAR</p>
+        <p className="bg-custom bg-clip-text text-transparent text-2xl font-black">&nbsp;LAR</p>
       </div>
     </div>
   
-    <div className="relative bg-custom bg-opacity-40 text-card-foreground p-2 rounded-3xl w-full max-w-md text-center min-h-[20vh] flex flex-col justify-center space-y-4">
+    <div className="relative w-11/12 bg-custom bg-opacity-40 text-card-foreground p-2 rounded-3xl  max-w-md text-center min-h-[20vh] flex flex-col justify-center space-y-3">
       <p className="text-white font-normal text-xl">Farming Points</p>
       <div className="flex items-center justify-center space-x-2">
         <p className="text-4xl font-medium text-white">
@@ -236,4 +246,3 @@ const Home = () => {
 };
 
 export default Home;
- 
