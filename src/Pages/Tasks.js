@@ -15,7 +15,7 @@ import telegram  from './telegram.png';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState(null); // Replace with dynamic ID if possible
+  const [userId, setUserId] = useState('001'); // Replace with dynamic ID if possible
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
@@ -423,7 +423,7 @@ const test ={
         <div className="flex items-center space-x-2">
           {dtaskStatus === 'start' && (
             <button 
-            onClick={() => handleDailyStart(userId, dtask.taskId, dtask.linkz)}
+            onClick={() => handleDailyStart(dtask.userId, dtask.taskId, dtask.linkz)}
             className="bg-golden-moon text-white py-2 px-4 rounded-xl"
               disabled={loadingTask === dtask.taskId}
             >
@@ -436,7 +436,7 @@ const test ={
           )}
           {dtaskStatus === 'claim' && (
             <button 
-            onClick={() => handleDailyClaim(userId, dtask.taskId, parseInt(dtask.reward))}
+            onClick={() => handleDailyClaim(dtask.userId, dtask.taskId, parseInt(dtask.reward))}
             className="bg-golden-moon text-white py-2 px-4 rounded-xl"
             >
               Claim
