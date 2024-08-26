@@ -286,7 +286,7 @@ const test ={
       console.log('Updated task status to "started" for taskId:', taskId);
   
       window.open(link, '_blank');
-      console.log('Opened link in new tab:', formattedLink);
+      console.log('Opened link in new tab:', link);
   
       setTimeout(() => {
         setLoadingTask(null);
@@ -423,8 +423,8 @@ const test ={
         <div className="flex items-center space-x-2">
           {dtaskStatus === 'start' && (
             <button 
-              onClick={() => handleDailyStart(daily?.userId, dtask.taskId, dtask.linkz)} 
-              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+            onClick={() => handleDailyStart(userId, dtask.taskId, dtask.linkz)}
+            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
               disabled={loadingTask === dtask.taskId}
             >
               {loadingTask === dtask.taskId ? (
@@ -436,8 +436,8 @@ const test ={
           )}
           {dtaskStatus === 'claim' && (
             <button 
-              onClick={() => handleDailyClaim(daily?.userId, dtask.taskId, parseInt(dtask.reward))} 
-              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+            onClick={() => handleDailyClaim(userId, dtask.taskId, parseInt(dtask.reward))}
+            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
             >
               Claim
             </button>
@@ -487,8 +487,8 @@ const test ={
         <div className="flex items-center space-x-2">
           {taskStatus === 'start' && (
             <button 
-              onClick={() => handleStartClick(special?.userId, task.taskId, task.linkz)} 
-              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+            onClick={() => handleStartClick(userId, task.taskId, task.linkz)}
+            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
               disabled={loadingTask === task.taskId}
             >
               {loadingTask === task.taskId ? (
@@ -500,8 +500,8 @@ const test ={
           )}
           {taskStatus === 'claim' && (
             <button 
-              onClick={() => handleClaimClick(special?.userId, task.taskId, parseInt(task.reward))} 
-              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+            onClick={() => handleClaimClick(userId, task.taskId, parseInt(task.reward))}
+            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
             >
               Claim
             </button>
