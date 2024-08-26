@@ -297,7 +297,7 @@ const test ={
         ));
         
         console.log('Task ready to claim:', taskId);
-      }, 20000);
+      }, 17000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
@@ -326,7 +326,7 @@ const test ={
         ));
         
         console.log('Task ready to claim:', taskId);
-      }, 20000);
+      }, 17000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
@@ -487,7 +487,7 @@ const test ={
         <div className="flex items-center space-x-2">
           {taskStatus === 'start' && (
             <button 
-            onClick={() => handleStartClick(userId, task.taskId, task.linkz)}
+            onClick={() => handleStartClick(task.userId, task.taskId, task.linkz)}
             className="bg-golden-moon text-white py-2 px-4 rounded-xl"
               disabled={loadingTask === task.taskId}
             >
@@ -500,7 +500,7 @@ const test ={
           )}
           {taskStatus === 'claim' && (
             <button 
-            onClick={() => handleClaimClick(userId, task.taskId, parseInt(task.reward))}
+            onClick={() => handleClaimClick(task.userId, task.taskId, parseInt(task.reward))}
             className="bg-golden-moon text-white py-2 px-4 rounded-xl"
             >
               Claim
