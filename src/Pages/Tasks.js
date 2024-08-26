@@ -9,11 +9,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import logo from './logo.png';
 import facebook from './facebook.png'
 import youtube from './youtube.png'
+import twitter from './twitter.png'
 import axios from 'axios';
+import telegram  from './telegram.png';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState('743737380'); // Replace with dynamic ID if possible
+  const [userId, setUserId] = useState('001'); // Replace with dynamic ID if possible
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
@@ -30,9 +32,28 @@ const Tasks = () => {
   const taskLogos = {
     '1': youtube,
     '2': facebook,
-    '3': logo,
-    // Add more task IDs and their corresponding logos here
+    '3': telegram,
+    '4': twitter 
   };
+
+  
+  const dtaskLogos = {
+    '1': youtube,
+    '2': youtube,
+    '3': youtube,
+    '4': youtube,
+    '5': facebook,
+    '6': facebook,
+    '7': twitter,
+    '8': twitter,
+    '9': telegram,
+    '10': telegram
+
+  };
+
+const test ={
+
+}
 
   const initializeUserId = useCallback(() => {
     if (window.Telegram && window.Telegram.WebApp) {
@@ -187,7 +208,7 @@ const Tasks = () => {
       setShowGoButton(true);
       console.log('Showing reward collection modal.');
   
-      setTimeout(() => setShowRCTasks(false), 500);
+      setTimeout(() => setShowRCTasks(false), 1000);
     } catch (error) {
       console.error('Error updating task status:', error);
     }
@@ -241,12 +262,12 @@ const Tasks = () => {
       }));
       console.log('Updated farmData state:', farmData);
   
-      setDailyTask(dtask);
+      setSelectedTask(dtask);
       setShowRCTasks(true);
       setShowGoButton(true);
       console.log('Showing reward collection modal.');
   
-      setTimeout(() => setShowRCTasks(false), 500);
+      setTimeout(() => setShowRCTasks(false), 1000);
     } catch (error) {
       console.error('Error updating task status:', error);
     }
@@ -277,7 +298,7 @@ const Tasks = () => {
         ));
         
         console.log('Task ready to claim:', taskId);
-      }, 1000);
+      }, 6000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
@@ -308,25 +329,28 @@ const Tasks = () => {
         ));
         
         console.log('Task ready to claim:', taskId);
-      }, 1000);
+      }, 6000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
     }
   };
 
-
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-cover text-white p-4">
-        <div className="flex flex-col items-center space-y-4">
-          <h1 className="text-white text-4xl font-normal">
-            <ClipLoader
-              color="#FFD700"
-              size={60}
-              speedMultiplier={1}
-            />
-          </h1>
+      <div
+        className="relative min-h-screen bg-black bg-blur-sm bg-don bg-center bg-no-repeat text-white flex items-center justify-center p-4 space-y-4"
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div
+          className="absolute transform -translate-y-1/2 top-1/2 flex justify-center items-center"
+          style={{ top: '50%' }}
+        >
+          <ClipLoader
+            color="#FFD700"
+            size={100}
+            speedMultiplier={1}
+          />
         </div>
       </div>
     );
@@ -380,57 +404,63 @@ const Tasks = () => {
           {dfilteredTasks.length === 0 && taskFilter === 'completed' && (
             <div>No completed tasks yet.</div>
           )}
-          {dfilteredTasks.length > 0 ? (
-            dfilteredTasks.map((dtask) => {
-              const dtaskStatus = dtask.status;
-              console.log('Rendering task:', dtask);
-  
-         
-              return (
-                <div key={dtask.id} className="bg-sinc bg-opacity-10 p-4 rounded-xl flex justify-between items-center">
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <p className="font-semibold">{dtask.title}</p>
-                      <p className="text-goldmoon font-semibold">{dtask.reward} LAR</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {dtaskStatus === 'start' && (
-                      <button 
-                        onClick={() => handleDailyStart(dtask.taskId, dtask.linkz)} 
-                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-                        disabled={loadingTask === dtask.taskId}
-                      >
-                        {loadingTask === dtask.taskId ? (
-                          <div className="spinner-border spinner-border-sm"></div>
-                        ) : (
-                          'Start'
-                        )}
-                      </button>
-                    )}
-                    {dtaskStatus === 'claim' && (
-                      <button 
-                        onClick={() => handleDailyClaim(dtask.taskId, parseInt(dtask.reward))} 
-                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-                      >
-                        Claim
-                      </button>
-                    )}
-                    {dtaskStatus === 'completed' && (
-                      <button 
-                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-                        disabled
-                      >
-                        Completed
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )
-            })
-          ) : (
-            <div>No daily tasks available.</div>
+         {dfilteredTasks.length > 0 ? (
+  dfilteredTasks.map((dtask) => {
+    const dtaskStatus = dtask.status;
+    console.log('Rendering dtask:', dtask);
+
+    // Determine the logo based on dtask status
+    const dtaskLogo = dtaskStatus === 'complete' ? logo : dtaskLogos[dtask.taskId] || ''; 
+
+    return (
+      <div key={dtask.id} className="bg-sinc bg-opacity-10 pt-4 pb-4 pl-1 pr-4  rounded-xl flex justify-between items-center">
+        <div className="flex items-center space-x-3">
+          <div className='bg-hy  flex items-center rounded-3xl'>
+            <img aria-hidden="true" alt="task-icon" src={dtaskLogo} className="m-2 mr-5 items-center w-7 h-7" />
+          </div>
+          <div className='flex text-left flex-col'>
+            <p className="font-bold w-4/5 text-white">{dtask.title}</p>
+            <p className="text-golden-moon font-semibold">{dtask.reward} LAR</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          {dtaskStatus === 'start' && (
+            <button 
+              onClick={() => handleDailyStart(dtask.taskId, dtask.linkz)} 
+              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+              disabled={loadingTask === dtask.taskId}
+            >
+              {loadingTask === dtask.taskId ? (
+                <div className="spinner-border spinner-border-sm"></div>
+              ) : (
+                'Start'
+              )}
+            </button>
           )}
+          {dtaskStatus === 'claim' && (
+            <button 
+              onClick={() => handleDailyClaim(dtask.taskId, parseInt(dtask.reward))} 
+              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+            >
+              Claim
+            </button>
+          )}
+          {dtaskStatus === 'completed' && (
+            <button 
+              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+              disabled
+            >
+              Completed
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  })
+) : (
+  <div>No daily tasks available.</div>
+)}
+
         </div>
   
         <div className="relative mt-6 space-y-4">
@@ -438,61 +468,63 @@ const Tasks = () => {
           {filteredTasks.length === 0 && taskFilter === 'completed' && (
             <div>No completed tasks yet.</div>
           )}
-          {filteredTasks.length > 0 ? (
-            filteredTasks.map((task) => {
-              const taskStatus = task.status;
-              console.log('Rendering task:', task);
-  
-              const taskLogo = taskLogos[task.taskId] || ''; 
+        {filteredTasks.length > 0 ? (
+  filteredTasks.map((task) => {
+    const taskStatus = task.status;
+    console.log('Rendering task:', task);
 
-              return (
-                <div key={task.id} className="bg-sinc bg-opacity-10 p-4 rounded-xl flex justify-between items-center">
-                  <div className="flex items-center space-x-3">
-                    <div className='bg-hy rounded-3xl'>
-                      <img aria-hidden="true" alt="task-icon" src={taskLogo} className="m-2 w-6 h-6" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">{task.title}</p>
-                      <p className="text-goldmoon font-semibold">{task.reward} LAR</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    {taskStatus === 'start' && (
-                      <button 
-                        onClick={() => handleStartClick(task.taskId, task.linkz)} 
-                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-                        disabled={loadingTask === task.taskId}
-                      >
-                        {loadingTask === task.taskId ? (
-                          <div className="spinner-border spinner-border-sm"></div>
-                        ) : (
-                          'Start'
-                        )}
-                      </button>
-                    )}
-                    {taskStatus === 'claim' && (
-                      <button 
-                        onClick={() => handleClaimClick(task.taskId, parseInt(task.reward))} 
-                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-                      >
-                        Claim
-                      </button>
-                    )}
-                    {taskStatus === 'completed' && (
-                      <button 
-                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-                        disabled
-                      >
-                        Completed
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )
-            })
-          ) : (
-            <div>No special tasks available.</div>
+    // Determine the logo based on task status
+    const taskLogo = taskStatus === 'complete' ? logo : taskLogos[task.taskId] || ''; 
+
+    return (
+      <div key={task.id} className="bg-sinc bg-opacity-10 p-4 rounded-xl flex justify-between items-center">
+        <div className="flex items-center space-x-3">
+          <div className='bg-hy rounded-3xl'>
+            <img aria-hidden="true" alt="task-icon" src={taskLogo} className="m-2 w-6 h-6" />
+          </div>
+          <div className='flex text-left flex-col'>
+            <p className="font-bold text-white">{task.title}</p>
+            <p className="text-golden-moon font-semibold">{task.reward} LAR</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          {taskStatus === 'start' && (
+            <button 
+              onClick={() => handleStartClick(task.taskId, task.linkz)} 
+              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+              disabled={loadingTask === task.taskId}
+            >
+              {loadingTask === task.taskId ? (
+                <div className="spinner-border spinner-border-sm"></div>
+              ) : (
+                'Start'
+              )}
+            </button>
           )}
+          {taskStatus === 'claim' && (
+            <button 
+              onClick={() => handleClaimClick(task.taskId, parseInt(task.reward))} 
+              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+            >
+              Claim
+            </button>
+          )}
+          {taskStatus === 'completed' && (
+            <button 
+              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+              disabled
+            >
+              Completed
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  })
+) : (
+  <div>No special tasks available.</div>
+)}
+
         </div>
       </div>
   
