@@ -15,7 +15,7 @@ import telegram  from './telegram.png';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState('001'); // Replace with dynamic ID if possible
+  const [userId, setUserId] = useState(null); // Replace with dynamic ID if possible
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
@@ -379,7 +379,7 @@ const test ={
     <div className="relative min-h-screen bg-black bg-blur-sm bg-don bg-[center_top_5rem] bg-no-repeat text-white flex flex-col p-1 space-y-4">
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       <div className="relative flex-grow overflow-y-auto text-center text-white p-4">
-        <h1 className="text-2xl font-bold">Curious about the moon's secrets? <br />Complete tasks to find out!</h1>
+        <h1 className="text-2xl font-bold">Curiou about the moon's secrets? <br />Complete tasks to find out!</h1>
                 <p className="text-zinc-500 mt-2">But hey, only qualified actions unlock the <br /> LAR galaxy! ✨</p>
         <div className="relative flex justify-center w-full mt-4">
           <button 
