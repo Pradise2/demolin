@@ -285,8 +285,7 @@ const test ={
       });
       console.log('Updated task status to "started" for taskId:', taskId);
   
-      const formattedLink = link.startsWith('http://') || link.startsWith('https://') ? link : `https://${link}`;
-      window.open(formattedLink, '_blank');
+      window.open(link, '_blank');
       console.log('Opened link in new tab:', formattedLink);
   
       setTimeout(() => {
@@ -298,7 +297,7 @@ const test ={
         ));
         
         console.log('Task ready to claim:', taskId);
-      }, 6000);
+      }, 20000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
@@ -316,10 +315,8 @@ const test ={
       });
       console.log('Updated task status to "started" for taskId:', taskId);
   
-      const formattedLink = link.startsWith('http://') || link.startsWith('https://') ? link : `https://${link}`;
-      window.open(formattedLink, '_blank');
-      console.log('Opened link in new tab:', formattedLink);
-  
+      window.open(link, '_blank');
+      
       setTimeout(() => {
         setLoadingTask(null);
   
@@ -329,7 +326,7 @@ const test ={
         ));
         
         console.log('Task ready to claim:', taskId);
-      }, 6000);
+      }, 20000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
