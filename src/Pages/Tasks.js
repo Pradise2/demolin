@@ -15,7 +15,7 @@ import telegram  from './telegram.png';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState('001'); // Replace with dynamic ID if possible
+  const [userId, setUserId] = useState(null); // Replace with dynamic ID if possible
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
@@ -382,7 +382,7 @@ const test ={
     <div className="relative min-h-screen bg-black bg-blur-sm bg-don bg-[center_top_5rem] bg-no-repeat text-white flex flex-col p-1 space-y-4">
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       <div className="relative flex-grow overflow-y-auto text-center text-white p-4">
-        <h1 className="text-2xl font-bold">Curiou about the moon's secrets? <br />Complete tasks to find out!</h1>
+        <h1 className="text-2xl font-bold">Curious about the moon's secrets? <br />Complete tasks to find out!</h1>
                 <p className="text-zinc-500 mt-2">But hey, only qualified actions unlock the <br /> LAR galaxy! ✨</p>
         <div className="relative flex justify-center w-full mt-4">
           <button 
@@ -398,72 +398,8 @@ const test ={
             Completed
           </button>
         </div>
-  
-        <div className="relative mt-6 space-y-4">
-          <h1 className='font-bold text-2xl flex'>Daily Tasks</h1>
-          {dfilteredTasks.length === 0 && taskFilter === 'completed' && (
-            <div>No completed tasks yet.</div>
-          )}
-         {dfilteredTasks.length > 0 ? (
-  dfilteredTasks.map((dtask) => {
-    const dtaskStatus = dtask.status;
-    console.log('Rendering dtask:', dtask);
 
-    // Determine the logo based on dtask status
-    const dtaskLogo = dtaskStatus === 'complete' ? logo : dtaskLogos[dtask.taskId] || ''; 
-
-    return (
-      <div key={dtask.id} className="bg-sinc bg-opacity-10 pt-4 pb-4 pl-1 pr-4  rounded-xl flex justify-between items-center">
-        <div className="flex items-center space-x-3">
-          <div className='bg-hy  flex items-center rounded-3xl'>
-            <img aria-hidden="true" alt="task-icon" src={dtaskLogo} className="m-2 mr-5 items-center w-7 h-7" />
-          </div>
-          <div className='flex text-left flex-col'>
-            <p className="font-bold w-4/5 text-white">{dtask.title}</p>
-            <p className="text-golden-moon font-semibold">{dtask.reward} LAR</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          {dtaskStatus === 'start' && (
-            <button 
-            onClick={() => handleDailyStart(dtask.userId, dtask.taskId, dtask.linkz)}
-            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-              disabled={loadingTask === dtask.taskId}
-            >
-              {loadingTask === dtask.taskId ? (
-                <div className="spinner-border spinner-border-sm"></div>
-              ) : (
-                'Start'
-              )}
-            </button>
-          )}
-          {dtaskStatus === 'claim' && (
-            <button 
-            onClick={() => handleDailyClaim(dtask.userId, dtask.taskId, parseInt(dtask.reward))}
-            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-            >
-              Claim
-            </button>
-          )}
-          {dtaskStatus === 'completed' && (
-            <button 
-              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-              disabled
-            >
-              Completed
-            </button>
-          )}
-        </div>
-      </div>
-    )
-  })
-) : (
-  <div>No daily tasks available.</div>
-)}
-
-        </div>
-  
-        <div className="relative mt-6 space-y-4">
+  <div className="relative mt-6 space-y-4">
           <h1 className='font-bold text-2xl flex'>Special Tasks</h1>
           {filteredTasks.length === 0 && taskFilter === 'completed' && (
             <div>No completed tasks yet.</div>
@@ -526,6 +462,72 @@ const test ={
 )}
 
         </div>
+
+        <div className="relative mt-6 space-y-4">
+          <h1 className='font-bold text-2xl flex'>Daily Tasks</h1>
+          {dfilteredTasks.length === 0 && taskFilter === 'completed' && (
+            <div>No completed tasks yet.</div>
+          )}
+         {dfilteredTasks.length > 0 ? (
+         dfilteredTasks.map((dtask) => {
+        const dtaskStatus = dtask.status;
+       console.log('Rendering dtask:', dtask);
+
+    // Determine the logo based on dtask status
+    const dtaskLogo = dtaskStatus === 'complete' ? logo : dtaskLogos[dtask.taskId] || ''; 
+
+    return (
+      <div key={dtask.id} className="bg-sinc bg-opacity-10 pt-4 pb-4 pl-1 pr-4  rounded-xl flex justify-between items-center">
+        <div className="flex items-center space-x-3">
+          <div className='bg-hy  flex items-center rounded-3xl'>
+            <img aria-hidden="true" alt="task-icon" src={dtaskLogo} className="m-2 mr-5 items-center w-7 h-7" />
+          </div>
+          <div className='flex text-left flex-col'>
+            <p className="font-bold w-4/5 text-white">{dtask.title}</p>
+            <p className="text-golden-moon font-semibold">{dtask.reward} LAR</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          {dtaskStatus === 'start' && (
+            <button 
+            onClick={() => handleDailyStart(dtask.userId, dtask.taskId, dtask.linkz)}
+            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+              disabled={loadingTask === dtask.taskId}
+            >
+              {loadingTask === dtask.taskId ? (
+                <div className="spinner-border spinner-border-sm"></div>
+              ) : (
+                'Start'
+              )}
+            </button>
+          )}
+          {dtaskStatus === 'claim' && (
+            <button 
+            onClick={() => handleDailyClaim(dtask.userId, dtask.taskId, parseInt(dtask.reward))}
+            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+            >
+              Claim
+            </button>
+          )}
+          {dtaskStatus === 'completed' && (
+            <button 
+              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+              disabled
+            >
+              Completed
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  })
+) : (
+  <div>No daily tasks available.</div>
+)}
+
+        </div>
+  
+        
       </div>
   
       <AnimatePresence>
