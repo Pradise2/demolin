@@ -7,6 +7,7 @@ import { ClipLoader } from 'react-spinners';
 import coin from './log.png';
 import coin2 from './logo.png';
 import wallet from './wallet.png'
+import axios from 'axios';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
@@ -146,30 +147,43 @@ const Home = () => {
         ...prevState,
         LastFarmActiveTime: Math.floor(Date.now() / 1000),
       }));
-    } else if (buttonText === "Claim") {
-      if (userData?.FarmReward > 0) {
-        if (navigator.vibrate) {
-          navigator.vibrate(500); // Vibrate for 500ms
-        }
-        try {
-          const newFarmBalance = (userData.FarmBalance || 0) + (userData.FarmReward || 0);
-          const newUserData = {
-            ...userData,
-            FarmBalance: newFarmBalance,
-            FarmReward: 0,
-            FarmTime: 14400,
-          };
-          await addUserToFarm(userId, newUserData);
-          setUserData(newUserData);
-          setShowRCFarm(true);
-          setTimeout(() => setShowRCFarm(false), 2000);
-          setButtonText("Start");
-        } catch (error) {
-          console.error('Error claiming reward:', error);
-        }
+    } else if (buttonText === "Claim" && userData?.FarmReward > 0) {
+      if (navigator.vibrate) {
+        navigator.vibrate(500);
+      }
+  
+      const newFarmBalance = (userData.FarmBalance || 0) + (userData.FarmReward || 0);
+  
+      try {
+        const newUserData = {
+          ...userData,
+          FarmBalance: newFarmBalance,
+          FarmReward: 0,
+          FarmTime: 14400,
+        };
+        await addUserToFarm(userId, newUserData);
+        setUserData(newUserData);
+        setShowRCFarm(true);
+        setTimeout(() => setShowRCFarm(false), 2000);
+        setButtonText("Start");
+      } catch (error) {
+        console.error('Error claiming reward:', error);
+        // Optionally handle error in the UI
+      }
+  
+      try {
+        await axios.put('https://lunarapp.thelunarcoin.com/backend/api/specialtask/userbackup', {
+          userId,
+          initialFarmBalance: newFarmBalance,
+        });
+        console.log('specialBalance:', newFarmBalance);
+      } catch (error) {
+        console.error('Error performing user backup:', error);
+        // Optionally handle error in the UI
       }
     }
   };
+  
 
   if (loading) {
     return (
@@ -195,7 +209,7 @@ const Home = () => {
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
 
   return (
-    <div className="relative min-h-screen bg-don bg-no-repeat bg-center bg-cover bg-black text-white flex flex-col items-center p-4 space-y-6" >
+    <div className="relative min-h-screen bg-don bg-no-repeat bg-center  bg-black text-white flex flex-col items-center p-4 space-y-6" >
     <div className="absolute inset-0 bg-black bg-opacity-70"></div>
     <div className="relative w-11/12">
       <div className="flex flex-row justify-between">   

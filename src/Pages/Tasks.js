@@ -15,7 +15,7 @@ import telegram  from './telegram.png';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState(null); // Replace with dynamic ID if possible
+  const [userId, setUserId] = useState('002'); // Replace with dynamic ID if possible
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
@@ -48,12 +48,9 @@ const Tasks = () => {
     '8': twitter,
     '9': telegram,
     '10': telegram
-
   };
 
-const test ={
 
-}
 
   const initializeUserId = useCallback(() => {
     if (window.Telegram && window.Telegram.WebApp) {
@@ -62,8 +59,7 @@ const test ={
       const user = WebApp.initDataUnsafe?.user;
       if (user) {
         setUserId(user.id);
-        console.log('User ID set from Telegram:', user.id);
-      } else {
+     } else {
         console.error('User data is not available.');
       }
     } else {
@@ -81,7 +77,6 @@ const test ={
         const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/specialtask/${userId}`);
         const special = response.data;
         setSpecialTask(special);
-        console.log('Fetched SpecialTask', special); 
       } catch (error) {
         console.error('Error fetching special task data:', error);
         setError('Error fetching special task data');
@@ -92,8 +87,7 @@ const test ={
 
     if (userId) {
       fetchSpecialTaskData();
-      console.log('Fetching special tasks for user ID:', userId);
-    }
+   }
   }, [userId]);
 
   useEffect(() => { 
@@ -102,7 +96,6 @@ const test ={
         const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/dailytask/${userId}`);
         const daily = response.data;
         setDailyTask(daily);
-        console.log('Fetched DailyTask', daily); 
       } catch (error) {
         console.error('Error fetching special task data:', error);
         setError('Error fetching special task data');
@@ -113,8 +106,7 @@ const test ={
 
     if (userId) {
       fetchDailyTaskData();
-      console.log('Fetching special tasks for user ID:', userId);
-    }
+   }
   }, [userId]);
 
   useEffect(() => {
@@ -122,21 +114,18 @@ const test ={
       try {
         const data = await getUserFromFarm(userId);
         setFarmData(data);
-        console.log('Fetched farm data:', data);
-      } catch (error) {
+       } catch (error) {
         console.error('Error fetching farm data:', error);
       }
     };
     if (userId) {
       fetchFarmData();
-      console.log('Fetching farm data for user ID:', userId);
     }
   }, [userId]);
 
   const saveUserData = useCallback(async () => {
     if (userId && userData) {
       try {
-        console.log('Saving user data:', userData);
         // Your save logic here
       } catch (error) {
         console.error('Error saving data:', error);
@@ -158,11 +147,8 @@ const test ={
   const handleClaimClick = async (userId, taskId, reward) => {
     const task = specialTask.find(t => t.taskId === taskId);
   
-    console.log('Claim button clicked for task:', task);
-  
     if (navigator.vibrate) {
       navigator.vibrate(500);
-      console.log('Vibration triggered.');
     }
   
     try {
@@ -170,7 +156,6 @@ const test ={
         userId,
         taskId,
       });
-      console.log('Updated task status to completed for taskId:', taskId);
   
       // Update the specific task's status to "completed"
       setSpecialTask(prevTasks => prevTasks.map(task => 
@@ -188,52 +173,56 @@ const test ={
           [taskId]: 'completed',
         }
       }));
-      console.log('Updated userData after task completion:', userData);
   
       const updatedFarmData = await getUserFromFarm(userId);
       const newFarmBalance = updatedFarmData.FarmBalance + reward;
-      console.log('New farm balance after reward:', newFarmBalance);
   
       await updateFarmBalance(userId, newFarmBalance);
-      console.log('Farm balance updated in the database.');
   
       setFarmData(prevData => ({
         ...prevData,
         FarmBalance: newFarmBalance,
       }));
-      console.log('Updated farmData state:', farmData);
-  
+      
       setSelectedTask(task);
       setShowRCTasks(true);
       setShowGoButton(true);
-      console.log('Showing reward collection modal.');
-  
+      
       setTimeout(() => setShowRCTasks(false), 1000);
     } catch (error) {
       console.error('Error updating task status:', error);
     }
+  
+    try {
+      // Ensure reward is not null or undefined before making the API call
+      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/specialtask/userbackup', {
+        userId,
+        specialBalance: reward, // Assuming you meant to pass the reward as the specialBalance
+      });
+  
+      console.log('specialBalance:', reward);
+    } catch (error) {
+      console.error('Error performing user backup:', error);
+    }
   };
 
   const handleDailyClaim = async (userId, taskId, reward) => {
-    const dtask = dailyTask.find(t => t.taskId === taskId);
-  
-    console.log('Claim button clicked for task:', dtask);
+    const task = dailyTask.find(t => t.taskId === taskId);
   
     if (navigator.vibrate) {
       navigator.vibrate(500);
-      console.log('Vibration triggered.');
     }
   
     try {
+      // Update the task status
       await axios.put('https://lunarapp.thelunarcoin.com/backend/api/dailytask/updateStatus', {
         userId,
         taskId,
       });
-      console.log('Updated task status to completed for taskId:', taskId);
-  
+ 
       // Update the specific task's status to "completed"
-      setDailyTask(prevTasks => prevTasks.map(dtask => 
-        dtask.taskId === taskId ? { ...dtask, status: 'complete' } : dtask
+      setDailyTask(prevTasks => prevTasks.map(t => 
+        t.taskId === taskId ? { ...t, status: 'complete' } : t
       ));
   
       setUserData(prevData => ({
@@ -247,33 +236,37 @@ const test ={
           [taskId]: 'completed',
         }
       }));
-      console.log('Updated userData after task completion:', userData);
   
       const updatedFarmData = await getUserFromFarm(userId);
       const newFarmBalance = updatedFarmData.FarmBalance + reward;
-      console.log('New farm balance after reward:', newFarmBalance);
-  
       await updateFarmBalance(userId, newFarmBalance);
-      console.log('Farm balance updated in the database.');
-  
+    
       setFarmData(prevData => ({
         ...prevData,
         FarmBalance: newFarmBalance,
       }));
-      console.log('Updated farmData state:', farmData);
-  
-      setSelectedTask(dtask);
+      
+      setSelectedTask(task);
       setShowRCTasks(true);
       setShowGoButton(true);
-      console.log('Showing reward collection modal.');
-  
+     
       setTimeout(() => setShowRCTasks(false), 1000);
     } catch (error) {
       console.error('Error updating task status:', error);
     }
-  };
 
+    try {
+      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/dailytask/userbackup', {
+        userId,
+        dailyBalance: reward, 
+      });
   
+      console.log('dailyBalance:', reward);
+    } catch (error) {
+      console.error('Error performing user backup:', error);
+    }
+};
+
   const handleStartClick = async (userId, taskId, link) => {
     setLoadingTask(taskId);
     console.log('Start button clicked for taskId:', taskId);
@@ -295,18 +288,15 @@ const test ={
           task.taskId === taskId ? { ...task, status: 'claim' } : task
         ));
         
-        console.log('Task ready to claim:', taskId);
-      }, 17000);
+   }, 17000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
     }
   };
-  
+
   const handleDailyStart = async (userId, taskId, link) => {
     setLoadingTask(taskId);
-    console.log('Start button clicked for taskId:', taskId);
-  
     // Open the link immediately
     window.open(link, '_blank');
   
@@ -315,8 +305,7 @@ const test ={
         userId,
         taskId,
       });
-      console.log('Updated task status to "started" for taskId:', taskId);
-  
+    
       setTimeout(() => {
         setLoadingTask(null);
         // Update the daily task's status to "claim"
@@ -324,8 +313,7 @@ const test ={
           dtask.taskId === taskId ? { ...dtask, status: 'claim' } : dtask
         ));
   
-        console.log('Task ready to claim:', taskId);
-        setLoadingTask(null);
+     setLoadingTask(null);
       }, 17000); // 17 seconds delay
   
     } catch (error) {
@@ -333,8 +321,6 @@ const test ={
       setLoadingTask(null);
     }
   };
-  
-  
 
   if (loading) {
     return (
@@ -373,10 +359,6 @@ const test ={
       return taskStatus !== 'complete';
     }
   });
-  
-  console.log('Filtered tasks based on dtaskFilter:', dfilteredTasks);
-
-  console.log('Filtered tasks based on taskFilter:', filteredTasks);
 
   return (
     <div className="relative min-h-screen bg-black bg-blur-sm bg-don bg-[center_top_5rem] bg-no-repeat text-white flex flex-col p-1 space-y-4">
@@ -407,8 +389,7 @@ const test ={
         {filteredTasks.length > 0 ? (
   filteredTasks.map((task) => {
     const taskStatus = task.status;
-    console.log('Rendering task:', task);
-
+   
     // Determine the logo based on task status
     const taskLogo = taskStatus === 'complete' ? logo : taskLogos[task.taskId] || ''; 
 
@@ -471,8 +452,7 @@ const test ={
          {dfilteredTasks.length > 0 ? (
          dfilteredTasks.map((dtask) => {
         const dtaskStatus = dtask.status;
-       console.log('Rendering dtask:', dtask);
-
+    
     // Determine the logo based on dtask status
     const dtaskLogo = dtaskStatus === 'complete' ? logo : dtaskLogos[dtask.taskId] || ''; 
 
@@ -552,4 +532,4 @@ const test ={
   );
   
 };
-export default Tasks;
+export default Tasks; 
