@@ -209,7 +209,7 @@ const Home = () => {
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
 
   return (
-    <div className="relative min-h-screen bg-don bg-no-repeat bg-center  bg-black text-white flex flex-col items-center p-4 space-y-6" >
+    <div className="relative min-h-screen bg-don bg-no-repeat bg-center bg-cover  bg-black text-white flex flex-col items-center p-4 space-y-6" >
     <div className="absolute inset-0 bg-black bg-opacity-70"></div>
     <div className="relative w-11/12">
       <div className="flex flex-row justify-between">   
