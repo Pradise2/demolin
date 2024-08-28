@@ -222,7 +222,7 @@ const Home = () => {
     </div>
   
     <div className="relative">
-      <div className='mt-10'>
+      <div className='mt-10 pt-4'>
       <img src={coin} alt="LAR Coin" className="w-58 h-55 rounded-full" />
       </div>
       <div className="flex mt-8 flex-row justify-center items-center ">
