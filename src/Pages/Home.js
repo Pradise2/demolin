@@ -221,7 +221,7 @@ const Home = () => {
     
     </div>
   
-    <div className="relative">
+    <div className="relative space-y-5">
       <img src={coin} alt="LAR Coin" className="w-58 h-55 rounded-full" />
       <div className="flex  flex-row justify-center items-center ">
         <p className="text-white font-medium text-2xl">
