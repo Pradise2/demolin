@@ -222,10 +222,10 @@ const Home = () => {
     </div>
   
     <div className="relative">
-      <div className='mt-7'>
+      <div className='mt-9'>
       <img src={coin} alt="LAR Coin" className="w-58 h-55 rounded-full" />
       </div>
-      <div className="flex  flex-row justify-center items-center ">
+      <div className="flex mt-4 flex-row justify-center items-center ">
         <p className="text-white font-medium text-2xl">
           {userData && isValidNumber(userData.FarmBalance) ? userData.FarmBalance.toLocaleString() : "0"}
         </p>
