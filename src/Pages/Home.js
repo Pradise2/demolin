@@ -229,7 +229,7 @@ const Home = () => {
     src={coin} 
     alt="LAR Coin" 
     className="w-45 h-44 rounded-full absolute inset-0" 
-    style={{ marginTop: '70px', marginLeft: '40px' }} 
+    style={{ marginTop: '80px', marginLeft: '50px' }} 
   />
   
 </div>
