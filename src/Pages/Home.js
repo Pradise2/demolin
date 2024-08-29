@@ -6,13 +6,14 @@ import './bg.css';
 import { ClipLoader } from 'react-spinners';
 import coin from './log.png';
 import remove from './remove.png'
+import screen from './screen.png'
 import coin2 from './logo.png';
 import wallet from './wallet.png'
 import axios from 'axios';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState('001');
+  const [userId, setUserId] = useState();
   const [userName, setUserName] = useState("Akin");
   const [buttonText, setButtonText] = useState("Start");
   const [showRCFarm, setShowRCFarm] = useState(false);
@@ -188,20 +189,22 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div
-        className="relative min-h-screen bg-black bg-blur-sm bg-don bg-center bg-no-repeat text-white flex items-center justify-center p-4 space-y-4"
+        <div
+        className="relative min-h-screen bg-black bg-screen bg-no-repeat bg-contain bg-center flex items-center justify-center"
       >
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
         <div 
           className="absolute transform -translate-y-1/2 top-1/2 flex justify-center items-center"
           style={{ top: '50%' }}
         >
           <ClipLoader 
-          color="#FFD700" 
-          size={100} 
-          speedMultiplier={1} />
+            color="#FFD700" 
+            size={100} 
+            speedMultiplier={1} 
+          />
         </div>
       </div>
+      
+      
     );
   }
   
