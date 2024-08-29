@@ -5,19 +5,20 @@ import FormattedTime from '../Component/FormattedTime';
 import './bg.css';
 import { ClipLoader } from 'react-spinners';
 import coin from './log.png';
-import remove from './remove.png'
-import screen from './screen.png'
+import remove from './remove.png';
+import screen from './screen.png';
 import coin2 from './logo.png';
-import wallet from './wallet.png'
+import wallet from './wallet.png';
 import axios from 'axios';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState();
+  const [userId, setUserId] = useState('001');
   const [userName, setUserName] = useState("Akin");
   const [buttonText, setButtonText] = useState("Start");
   const [showRCFarm, setShowRCFarm] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     // Clear local storage when the component mounts
@@ -185,11 +186,20 @@ const Home = () => {
       }
     }
   };
-  
 
-  if (loading) {
+  useEffect(() => {
+    // Set a timeout to delay showing the loading spinner
+    const timer = setTimeout(() => {
+      setShowLoading(true);
+    }, 120000); // 2 minutes
+
+    // Clear timeout if the component unmounts before the delay completes
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading || !showLoading) {
     return (
-        <div
+      <div
         className="relative min-h-screen bg-black bg-screen bg-no-repeat bg-contain bg-center flex items-center justify-center"
       >
         <div 
@@ -203,72 +213,64 @@ const Home = () => {
           />
         </div>
       </div>
-      
-      
     );
   }
-  
-  
 
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
 
   return (
-    <div className="relative min-h-screen  bg-black text-white flex flex-col items-center p-4 space-y-6" >
-    <div className="relative w-11/12">
-      <div className="flex flex-row justify-between">   
-      <p className="text-white flex items-center font-black text-xl text-center">Hi,&nbsp;
-          <span className="text-lg items-center font-normal">{userName}</span>
-        </p>
-        <img aria-hidden="true" alt="team-icon" src={wallet} width="40" height="40" />
+    <div className="relative min-h-screen bg-black text-white flex flex-col items-center p-4 space-y-6">
+      <div className="relative w-11/12">
+        <div className="flex flex-row justify-between">
+          <p className="text-white flex items-center font-black text-xl text-center">Hi,&nbsp;
+            <span className="text-lg items-center font-normal">{userName}</span>
+          </p>
+          <img aria-hidden="true" alt="team-icon" src={wallet} width="40" height="40" />
+        </div>
       </div>
-    
-    </div>
-  
-    <div className="relative">
-    <div className="relative " style={{ marginTop: '-10px' }}>
-  <img src={remove} alt="Remove" className="w-50 h-45" />
-  <div className="absolute inset-0 bg-black bg-opacity-70"></div>
-  <img 
-    src={coin} 
-    alt="LAR Coin" 
-    className="w-45 h-44 rounded-full absolute inset-0" 
-    style={{ marginTop: '80px', marginLeft: '50px' }} 
-  />
-  
-</div>
-      <div className="flex flex-row justify-center items-center ">
-        <p className="text-white font-medium text-2xl">
-          {userData && isValidNumber(userData.FarmBalance) ? userData.FarmBalance.toLocaleString() : "0"}
-        </p>
-        <p className="bg-custom bg-clip-text text-transparent text-2xl font-black">&nbsp;LAR</p>
+
+      <div className="relative">
+        <div className="relative" style={{ marginTop: '-10px' }}>
+          <img src={remove} alt="Remove" className="w-50 h-45" />
+          <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+          <img 
+            src={coin} 
+            alt="LAR Coin" 
+            className="w-45 h-44 rounded-full absolute inset-0" 
+            style={{ marginTop: '80px', marginLeft: '50px' }} 
+          />
+        </div>
+        <div className="flex flex-row justify-center items-center">
+          <p className="text-white font-medium text-2xl">
+            {userData && isValidNumber(userData.FarmBalance) ? userData.FarmBalance.toLocaleString() : "0"}
+          </p>
+          <p className="bg-custom bg-clip-text text-transparent text-2xl font-black">&nbsp;LAR</p>
+        </div>
+      </div>
+
+      <div className="relative w-11/12 bg-custom bg-opacity-40 text-card-foreground p-2 rounded-3xl max-w-md text-center min-h-[20vh] flex flex-col justify-center space-y-3">
+        <p className="text-white font-normal text-xl">Farming Points</p>
+        <div className="flex items-center justify-center space-x-2">
+          <p className="text-4xl font-medium text-white">
+            {userData && isValidNumber(userData.FarmReward) ? userData.FarmReward.toFixed(1) : "0.0"} 
+            <span className="text-white font-bold">&nbsp;LAR</span>
+          </p>
+        </div>
+        <p className="font-extrabold text-vividRed"><FormattedTime time={userData?.FarmTime || 0} /></p>
+        <div className="space-y-4 w-full flex items-center flex-col">
+          <button
+            className={`text-white hover:bg-black px-6 py-3 rounded-xl w-full max-w-md ${buttonText === "Farming..." ? "bg-black" : "bg-gradient-to-r from-golden-moon"}`}
+            onClick={handleButtonClick}
+          >
+            {buttonText}
+          </button>
+        </div>
+      </div>
+
+      <div className="w-full max-w-md rounded-3xl bg-darkGray fixed bottom-0 left-0 flex justify-around py-1">
+        <Footer />
       </div>
     </div>
-  
-    <div className="relative w-11/12 bg-custom bg-opacity-40 text-card-foreground p-2 rounded-3xl  max-w-md text-center min-h-[20vh] flex flex-col justify-center space-y-3">
-      <p className="text-white font-normal text-xl">Farming Points</p>
-      <div className="flex items-center justify-center space-x-2">
-        <p className="text-4xl font-medium text-white">
-          {userData && isValidNumber(userData.FarmReward) ? userData.FarmReward.toFixed(1) : "0.0"} 
-          <span className="text-white font-bold">&nbsp;LAR</span>
-        </p>
-      </div>
-      <p className="font-extrabold text-vividRed"><FormattedTime time={userData?.FarmTime || 0} /></p>
-      <div className="space-y-4 w-full flex items-center flex-col">
-        <button
-          className={`text-white hover:bg-black px-6 py-3 rounded-xl w-full max-w-md ${buttonText === "Farming..." ? "bg-black" : "bg-gradient-to-r from-golden-moon"}`}
-          onClick={handleButtonClick}
-        >
-          {buttonText}
-        </button>
-      </div>
-    </div>
-  
-    <div className=" w-full max-w-md rounded-3xl bg-darkGray fixed bottom-0 left-0 flex justify-around py-1">
-      <Footer />
-    </div>
-  </div>
-  
-  
   );
 };
 
