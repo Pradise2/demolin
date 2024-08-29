@@ -26,6 +26,22 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    // Check if the loading spinner has been shown before
+    const hasShownLoading = localStorage.getItem('hasShownLoading');
+    
+    if (!hasShownLoading) {
+      const timer = setTimeout(() => {
+        setShowLoading(true);
+        localStorage.setItem('hasShownLoading', 'true'); // Set item to remember that loading has been shown
+      }, 20000); // 2 minutes
+
+      return () => clearTimeout(timer);
+    } else {
+      setShowLoading(true); // If already shown before, directly set showLoading to true
+    }
+  }, []);
+
+  useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       const { WebApp } = window.Telegram;
       WebApp.expand();
@@ -186,16 +202,6 @@ const Home = () => {
       }
     }
   };
-
-  useEffect(() => {
-    // Set a timeout to delay showing the loading spinner
-    const timer = setTimeout(() => {
-      setShowLoading(true);
-    }, 120000); // 2 minutes
-
-    // Clear timeout if the component unmounts before the delay completes
-    return () => clearTimeout(timer);
-  }, []);
 
   if (loading || !showLoading) {
     return (
