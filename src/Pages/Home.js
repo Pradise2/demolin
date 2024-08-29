@@ -5,6 +5,7 @@ import FormattedTime from '../Component/FormattedTime';
 import './bg.css';
 import { ClipLoader } from 'react-spinners';
 import coin from './log.png';
+import remove from './remove.png'
 import coin2 from './logo.png';
 import wallet from './wallet.png'
 import axios from 'axios';
@@ -209,8 +210,7 @@ const Home = () => {
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
 
   return (
-    <div className="relative min-h-screen bg-don bg-no-repeat bg-center bg-cover  bg-black text-white flex flex-col items-center p-4 space-y-6" >
-    <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+    <div className="relative min-h-screen  bg-black text-white flex flex-col items-center p-4 space-y-6" >
     <div className="relative w-11/12">
       <div className="flex flex-row justify-between">   
       <p className="text-white flex items-center font-black text-xl text-center">Hi,&nbsp;
@@ -222,10 +222,18 @@ const Home = () => {
     </div>
   
     <div className="relative">
-      <div className='mt-10 pt-4'>
-      <img src={coin} alt="LAR Coin" className="w-58 h-55 rounded-full" />
-      </div>
-      <div className="flex mt-8 flex-row justify-center items-center ">
+    <div className="relative " style={{ marginTop: '-10px' }}>
+  <img src={remove} alt="Remove" className="w-45 h-34" />
+  <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+  <img 
+    src={coin} 
+    alt="LAR Coin" 
+    className="w-58 h-55 rounded-full absolute inset-0" 
+    style={{ marginTop: '110px', marginLeft: '60px' }} 
+  />
+  
+</div>
+      <div className="flex flex-row justify-center items-center ">
         <p className="text-white font-medium text-2xl">
           {userData && isValidNumber(userData.FarmBalance) ? userData.FarmBalance.toLocaleString() : "0"}
         </p>
