@@ -223,13 +223,13 @@ const Home = () => {
   
     <div className="relative">
     <div className="relative " style={{ marginTop: '-10px' }}>
-  <img src={remove} alt="Remove" className="w-45 h-34" />
+  <img src={remove} alt="Remove" className="w-50 h-45" />
   <div className="absolute inset-0 bg-black bg-opacity-70"></div>
   <img 
     src={coin} 
     alt="LAR Coin" 
-    className="w-58 h-55 rounded-full absolute inset-0" 
-    style={{ marginTop: '110px', marginLeft: '60px' }} 
+    className="w-45 h-44 rounded-full absolute inset-0" 
+    style={{ marginTop: '70px', marginLeft: '40px' }} 
   />
   
 </div>
