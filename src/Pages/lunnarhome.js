@@ -13,39 +13,26 @@ import axios from 'axios';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState(null); 
-  // const [userId, setUserId] = useState(null);
-
+  const [userId, setUserId] = useState('001');
   const [userName, setUserName] = useState(null);
   const [buttonText, setButtonText] = useState("Start");
   const [showRCFarm, setShowRCFarm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [identity, setIdentity] = useState(null);
-
-
-  // const ball = "1234";
-  const prefix = "local";
-  const [dynamicVariables, setDynamicVariables] = useState({});
 
   useEffect(() => {
-    
+    // Clear local storage when the component mounts
+    localStorage.clear();
+  }, []);
+
+  useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       const { WebApp } = window.Telegram;
       WebApp.expand();
       const user = WebApp.initDataUnsafe?.user;
       if (user) {
-        setUserId(JSON.stringify(user.id));
-        setIdentity(user.id)
+        setUserId(user.id);
         setUserName(user.username);
-        localStorage.setItem('localUserId', JSON.stringify(user.id));
-        
       } else {
-      //   const variableName = ${prefix}${userId};
-      // const localData = localStorage.getItem(variableName);
-      //   if (localData) {
-      //     console.log(localData);
-      //     setUserData(JSON.parse(localData));
-      //   }
         console.error('User data is not available.');
       }
     } else {
@@ -53,93 +40,42 @@ const Home = () => {
     }
   }, []);
 
- 
   useEffect(() => {
-   
     const fetchUserData = async () => {
-      // await axios.get(https://lunarapp.thelunarcoin.com/testbackend/api/squad/${userId});
-      const variableName = ${prefix}${userId};
-    //    window.localStorage.clear();
-    // localStorage.clear();
-    //   window.localStorage.removeItem(variableName);
-    //  localStorage.removeItem(variableName);
       try {
-         setLoading(true);
-        let data = null;
-        const localData = localStorage.getItem(variableName);
-        console.log('this is local data '+ localData);
-
-        if (localData) {
-          data = JSON.parse(localData);
-        } else {
-          data = await getUserFromFarm(userId);
-        }
-
+        const data = await getUserFromFarm(userId);
         const currentTime = Math.floor(Date.now() / 1000);
 
         if (data) {
           const elapsed = currentTime - data.LastFarmActiveTime;
           const newFarmTime = data.FarmTime - elapsed;
-          console.log('this is last active time '+ data.LastFarmActiveTime);
-          console.log('this is current time '+ currentTime);
-          console.log('this is farm time '+ data.FarmTime);
-          console.log('this is farm status '+ data.FarmStatus);
-
-          if ( data.FarmStatus !== 'farming') {
-            if (newFarmTime <= 0 ){
-              data = {
-                ...data,
-                FarmTime: 0,
-                FarmReward: (Number(data.FarmReward) || 0) + (Number(data.FarmTime) || 0) * 0.1,
-                LastFarmActiveTime: currentTime,
-              };
-              setButtonText("Claim");
-            }
-            else{
-              data = {
-                ...data,
-                // UserId:data.userId,
-                FarmBalance: data.FarmBalance,
-                FarmReward: 0,
-                FarmStatus: 'start',
-                FarmTime: 120,
-                
-              };
-          
-              setButtonText("Start");
-            }
-           
-          }
-          else {
-            data = {
+          if (newFarmTime <= 0) {
+            setUserData({
               ...data,
-              UserId:userId,
-              FarmTime: newFarmTime,
-              FarmReward: (Number(data.FarmReward) || 0) + (Number(elapsed) || 0) * 0.1,
+              FarmTime: 0,
+              FarmReward: (data.FarmReward || 0) + (data.FarmTime || 0) * 0.1,
               LastFarmActiveTime: currentTime,
-            };
+            });
+            setButtonText("Claim");
+          } else {
+            setUserData({
+              ...data,
+              FarmTime: newFarmTime,
+              FarmReward: (data.FarmReward || 0) + (elapsed || 0) * 0.1,
+              LastFarmActiveTime: currentTime,
+            });
             setButtonText("Farming...");
           }
-          setUserData(data);
         } else {
           const initialData = {
-            UserId:userId,
             FarmBalance: 0,
-            FarmTime: 120,
+            FarmTime: 14400,
             FarmReward: 0,
             LastFarmActiveTime: currentTime,
-            StartFarmTime: currentTime,
           };
           await addUserToFarm(userId, initialData);
           setUserData(initialData);
         }
-        setDynamicVariables(prevVariables => ({
-          ...prevVariables,
-          [variableName]: JSON.stringify(data)
-        }));
-        localStorage.setItem('localUserId', JSON.stringify(userId));
-
-        localStorage.setItem(variableName, JSON.stringify(data));
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -155,17 +91,16 @@ const Home = () => {
   useEffect(() => {
     let interval;
     if (buttonText === "Farming...") {
-      // interval = setInterval(() => { 
+      interval = setInterval(() => {
         if (userData) {
           const currentTime = Math.floor(Date.now() / 1000);
           const elapsed = currentTime - userData.LastFarmActiveTime;
           const newFarmTime = userData.FarmTime - elapsed;
-          
           if (newFarmTime <= 0) {
             setUserData((prevState) => ({
               ...prevState,
               FarmTime: 0,
-              FarmReward: (Number(prevState.FarmReward) || 0) + (Number(prevState.FarmTime) || 0) * 0.1,
+              FarmReward: (prevState.FarmReward || 0) + (prevState.FarmTime || 0) * 0.1,
               LastFarmActiveTime: currentTime,
             }));
             setButtonText("Claim");
@@ -173,24 +108,21 @@ const Home = () => {
             setUserData((prevState) => ({
               ...prevState,
               FarmTime: newFarmTime,
-              FarmReward: (Number(prevState.FarmReward) || 0) + (Number(elapsed) || 0) * 0.1,
+              FarmReward: (prevState.FarmReward || 0) + (elapsed || 0) * 0.1,
               LastFarmActiveTime: currentTime,
             }));
-          } 
+          }
         }
-      // }, 1000);
+      }, 1000);
     }
 
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, [buttonText, userData]);
 
   useEffect(() => {
     const saveUserData = async () => {
       if (userId && userData) {
-        const variableName = ${prefix}${userId};
-        localStorage.setItem('localUserId', JSON.stringify(userId));
-
-        localStorage.setItem(variableName, JSON.stringify(userData));
+        await addUserToFarm(userId, userData);
       }
     };
 
@@ -215,60 +147,64 @@ const Home = () => {
       setButtonText("Farming...");
       setUserData((prevState) => ({
         ...prevState,
-        FarmStatus: 'farming',
         LastFarmActiveTime: Math.floor(Date.now() / 1000),
       }));
     } else if (buttonText === "Claim") {
       if (userData?.FarmReward > 0) {
         if (navigator.vibrate) {
-          navigator.vibrate(500);
+          navigator.vibrate(500); // Vibrate for 500ms
         }
+        const newFarmBalance = (userData.FarmBalance || 0) + (userData.FarmReward || 0);
+         
         try {
-          const newFarmBalance = (Number(Math.round(userData.FarmBalance)) || 0) + (Number(Math.round(userData.FarmReward)) || 0);
           const newUserData = {
             ...userData,
-            UserId:userId,
             FarmBalance: newFarmBalance,
             FarmReward: 0,
-            FarmStatus: 'start',
-            FarmTime: 120,
+            FarmTime: 14400,
           };
-          const variableName = ${prefix}${userId};
-
           await addUserToFarm(userId, newUserData);
           setUserData(newUserData);
           setShowRCFarm(true);
           setTimeout(() => setShowRCFarm(false), 2000);
           setButtonText("Start");
-          localStorage.setItem('localUserId', JSON.stringify(userId));
-
-          localStorage.setItem(variableName, JSON.stringify(newUserData));
         } catch (error) {
           console.error('Error claiming reward:', error);
         }
+        try {
+          await axios.put('https://lunarapp.thelunarcoin.com/backend/api/farm/userbackup', {
+            userId,
+            initialFarmBalance: newFarmBalance,
+          });
+          console.log('specialBalance:', newFarmBalance);
+        } catch (error) {
+          console.error('Error performing user backup:', error);
+          
+        }
       }
-    }
-  };
+    };
+  }
 
-  if (loading || !showLoading) {
+  if (loading) {
     return (
       <div
-        className="relative min-h-screen bg-black bg-screen bg-no-repeat bg-contain bg-center flex items-center justify-center"
+        className="relative min-h-screen bg-black bg-blur-sm bg-don bg-center bg-no-repeat text-white flex items-center justify-center p-4 space-y-4"
       >
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
         <div 
           className="absolute transform -translate-y-1/2 top-1/2 flex justify-center items-center"
           style={{ top: '50%' }}
         >
           <ClipLoader 
-            color="#FFD700" 
-            size={100} 
-            speedMultiplier={1} 
-          />
+          color="#FFD700" 
+          size={100} 
+          speedMultiplier={1} />
         </div>
       </div>
     );
   }
-
+  
+  
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
 
   return (

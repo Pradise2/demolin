@@ -29,16 +29,22 @@ const Tasks = () => {
   const [dailyTask, setDailyTask] = useState([]);
 
 
+
   const taskLogos = {
     '1': youtube,
     '2': facebook,
-    '3': telegram,
+    '3': logo,
     '4': twitter,
     '5': youtube,
     '6': youtube,
     '7': youtube,
     '8': youtube,
-    '9': youtube
+    '9': youtube,
+    '10': youtube,
+    '11': telegram,
+    '12': twitter,
+    '14': youtube,
+    '15': youtube
   };
 
   
@@ -51,7 +57,7 @@ const Tasks = () => {
     '6': facebook,
     '7': twitter,
     '8': twitter,
-    '9': telegram,
+    '9': telegram, 
     '10': telegram,
     '11': twitter,
     '12': twitter,
@@ -62,8 +68,25 @@ const Tasks = () => {
     '17': telegram,
     '18': facebook,
     '19': facebook,
-    '20': facebook
-   
+    '20': facebook,
+    '21': twitter,
+    '22': twitter,
+    '23': twitter,
+    '24': twitter,
+    '25': telegram,
+    '26': telegram,
+    '27': telegram,
+    '28': telegram,
+    '29': twitter,
+    '30': twitter,
+    '31': telegram,
+    '32': telegram,
+    '33': telegram,
+    '34': telegram,
+    '35': twitter,
+    '36': twitter,
+    '37': telegram,
+    '38': telegram,
   };
 
 
@@ -235,6 +258,8 @@ const Tasks = () => {
         userId,
         taskId,
       });
+      console.log('Start di claim clicked for taskId:', taskId);
+
  
       // Update the specific task's status to "completed"
       setDailyTask(prevTasks => prevTasks.map(t => 
@@ -336,6 +361,8 @@ const Tasks = () => {
       console.error('Error starting task:', error);
       setLoadingTask(null);
     }
+    console.log('Start dilybutton clicked for taskId:', taskId);
+
   };
 
   if (loading) {
