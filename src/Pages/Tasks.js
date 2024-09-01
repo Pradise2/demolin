@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Footer from '../Component/Footer';
 import './Spinner.css';
 import { ClipLoader } from 'react-spinners';
-import { updateFarmBalance, getUserFromFarm } from '../utils/firestoreFunctions';
 import './bg.css';
 import RCTasks from '../Component/RCTasks';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -19,8 +18,7 @@ const Tasks = () => {
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
-  const [farmData, setFarmData] = useState(null);
-  const [taskReadyToClaim, setTaskReadyToClaim] = useState(null);
+   const [taskReadyToClaim, setTaskReadyToClaim] = useState(null);
   const [showRCTasks, setShowRCTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showGoButton, setShowGoButton] = useState(false);
@@ -148,19 +146,7 @@ const Tasks = () => {
    }
   }, [userId]);
 
-  useEffect(() => {
-    const fetchFarmData = async () => {
-      try {
-        const data = await getUserFromFarm(userId);
-        setFarmData(data);
-       } catch (error) {
-        console.error('Error fetching farm data:', error);
-      }
-    };
-    if (userId) {
-      fetchFarmData();
-    }
-  }, [userId]);
+  
 
   const saveUserData = useCallback(async () => {
     if (userId && userData) {
@@ -213,16 +199,7 @@ const Tasks = () => {
         }
       }));
   
-      const updatedFarmData = await getUserFromFarm(userId);
-      const newFarmBalance = updatedFarmData.FarmBalance + reward;
-  
-      await updateFarmBalance(userId, newFarmBalance);
-  
-      setFarmData(prevData => ({
-        ...prevData,
-        FarmBalance: newFarmBalance,
-      }));
-      
+     
       setSelectedTask(task);
       setShowRCTasks(true);
       setShowGoButton(true);
@@ -278,14 +255,7 @@ const Tasks = () => {
         }
       }));
   
-      const updatedFarmData = await getUserFromFarm(userId);
-      const newFarmBalance = updatedFarmData.FarmBalance + reward;
-      await updateFarmBalance(userId, newFarmBalance);
-    
-      setFarmData(prevData => ({
-        ...prevData,
-        FarmBalance: newFarmBalance,
-      }));
+     
       
       setSelectedTask(task);
       setShowRCTasks(true);

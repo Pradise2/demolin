@@ -58,7 +58,8 @@ const Home = () => {
    
     const fetchUserData = async () => {
       // await axios.get(https://lunarapp.thelunarcoin.com/testbackend/api/squad/${userId});
-      const variableName = ${prefix}${userId};
+      const variableName = `${prefix}${userId}`;
+
     //    window.localStorage.clear();
     // localStorage.clear();
     //   window.localStorage.removeItem(variableName);
@@ -187,7 +188,8 @@ const Home = () => {
   useEffect(() => {
     const saveUserData = async () => {
       if (userId && userData) {
-        const variableName = ${prefix}${userId};
+        const variableName = `${prefix}${userId}`;
+
         localStorage.setItem('localUserId', JSON.stringify(userId));
 
         localStorage.setItem(variableName, JSON.stringify(userData));
@@ -233,7 +235,8 @@ const Home = () => {
             FarmStatus: 'start',
             FarmTime: 120,
           };
-          const variableName = ${prefix}${userId};
+          const variableName = `${prefix}${userId}`;
+
 
           await addUserToFarm(userId, newUserData);
           setUserData(newUserData);
@@ -250,7 +253,7 @@ const Home = () => {
     }
   };
 
-  if (loading || !showLoading) {
+  if (loading ) {
     return (
       <div
         className="relative min-h-screen bg-black bg-screen bg-no-repeat bg-contain bg-center flex items-center justify-center"
