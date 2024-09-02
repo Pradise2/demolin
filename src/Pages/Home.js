@@ -264,6 +264,8 @@ const Home = () => {
     }
   };
 
+ 
+
   if (loading ) {
     return (
       <div
@@ -284,6 +286,9 @@ const Home = () => {
   }
 
   const isValidNumber = (value) => typeof value === 'number' && !isNaN(value);
+
+  
+  const total = ((all?.balance || 0) + (userData && isValidNumber(userData.FarmBalance) ? Math.round(userData.FarmBalance) : 0)).toLocaleString();
 
   return (
     <div className="relative min-h-screen bg-black text-white flex flex-col items-center p-4 space-y-6">
@@ -309,8 +314,9 @@ const Home = () => {
         </div>
         <div className="flex flex-row justify-center items-center">
         <p className="text-white font-medium text-2xl">
-  {((all?.balance || 0) + (userData && isValidNumber(userData.FarmBalance) ? Math.round(userData.FarmBalance) : 0)).toLocaleString()}
+  {total}
 </p>
+
           <p className="bg-custom bg-clip-text text-transparent text-2xl font-black">&nbsp;LAR</p>
         </div>
       </div>
