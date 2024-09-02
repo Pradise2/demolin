@@ -13,7 +13,7 @@ import axios from 'axios';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState(null); 
+  const [userId, setUserId] = useState('001'); 
   const [userName, setUserName] = useState(null);
   const [buttonText, setButtonText] = useState("Start");
   const [showRCFarm, setShowRCFarm] = useState(false);
@@ -309,7 +309,7 @@ const Home = () => {
         </div>
         <div className="flex flex-row justify-center items-center">
         <p className="text-white font-medium text-2xl">
-  {all?.balance?.toLocaleString()}
+  {((all?.balance || 0) + (userData && isValidNumber(userData.FarmBalance) ? Math.round(userData.FarmBalance) : 0)).toLocaleString()}
 </p>
           <p className="bg-custom bg-clip-text text-transparent text-2xl font-black">&nbsp;LAR</p>
         </div>
