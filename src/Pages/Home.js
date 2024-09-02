@@ -13,18 +13,16 @@ import axios from 'axios';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState(null); 
-  // const [userId, setUserId] = useState(null);
-
+  const [userId, setUserId] = useState('001'); 
   const [userName, setUserName] = useState(null);
   const [buttonText, setButtonText] = useState("Start");
   const [showRCFarm, setShowRCFarm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [identity, setIdentity] = useState(null);
+  const [all, setAll] = useState([]);
+  const [error, setError] = useState(null);
 
-
-  // const ball = "1234";
-  const prefix = "local";
+   const prefix = "local";
   const [dynamicVariables, setDynamicVariables] = useState({});
 
   useEffect(() => {
@@ -40,12 +38,6 @@ const Home = () => {
         localStorage.setItem('localUserId', JSON.stringify(user.id));
         
       } else {
-      //   const variableName = ${prefix}${userId};
-      // const localData = localStorage.getItem(variableName);
-      //   if (localData) {
-      //     console.log(localData);
-      //     setUserData(JSON.parse(localData));
-      //   }
         console.error('User data is not available.');
       }
     } else {
@@ -54,17 +46,41 @@ const Home = () => {
   }, []);
 
  
-  useEffect(() => {
-   
-    const fetchUserData = async () => {
-      // await axios.get(https://lunarapp.thelunarcoin.com/testbackend/api/squad/${userId});
-      const variableName = `${prefix}${userId}`;
-
-    //    window.localStorage.clear();
-    // localStorage.clear();
-    //   window.localStorage.removeItem(variableName);
-    //  localStorage.removeItem(variableName);
+  useEffect(() => { 
+    const fetchAllData = async () => {
       try {
+        const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/getuserbackup/${userId}`);
+        const all = response.data;
+        
+        // Calculate Balance
+        const dailyBalance = parseFloat(all.dailyBalance);
+        const specialBalance = parseFloat(all.specialBalance);
+        const initialFarmBalance = parseFloat(all.initialFarmBalance);
+        const farmClaimCount = parseInt(all.farmClaimCount);
+  
+        const balance = dailyBalance + specialBalance + initialFarmBalance + (farmClaimCount * 14400);
+        setAll({ ...all, balance });
+  
+        console.log('Fetched all data:', { ...all, balance });
+      } catch (error) {
+        console.error('Error fetching all data:', error.message);
+        setError(`Failed to fetch data: ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    if (userId) {
+      setLoading(true);
+      fetchAllData();
+    }
+  }, [userId]);
+  
+
+  useEffect(() => {
+      const fetchUserData = async () => {
+      const variableName = `${prefix}${userId}`;
+     try {
          setLoading(true);
         let data = null;
         const localData = localStorage.getItem(variableName);
@@ -99,7 +115,6 @@ const Home = () => {
             else{
               data = {
                 ...data,
-                // UserId:data.userId,
                 FarmBalance: data.FarmBalance,
                 FarmReward: 0,
                 FarmStatus: 'start',
@@ -156,8 +171,7 @@ const Home = () => {
   useEffect(() => {
     let interval;
     if (buttonText === "Farming...") {
-      // interval = setInterval(() => { 
-        if (userData) {
+       if (userData) {
           const currentTime = Math.floor(Date.now() / 1000);
           const elapsed = currentTime - userData.LastFarmActiveTime;
           const newFarmTime = userData.FarmTime - elapsed;
@@ -179,10 +193,9 @@ const Home = () => {
             }));
           } 
         }
-      // }, 1000);
+    
     }
 
-    // return () => clearInterval(interval);
   }, [buttonText, userData]);
 
   useEffect(() => {
@@ -236,8 +249,6 @@ const Home = () => {
             FarmTime: 120,
           };
           const variableName = `${prefix}${userId}`;
-
-
           await addUserToFarm(userId, newUserData);
           setUserData(newUserData);
           setShowRCFarm(true);
@@ -297,9 +308,9 @@ const Home = () => {
           />
         </div>
         <div className="flex flex-row justify-center items-center">
-          <p className="text-white font-medium text-2xl">
-            {userData && isValidNumber(userData.FarmBalance) ? userData.FarmBalance.toLocaleString() : "0"}
-          </p>
+        <p className="text-white font-medium text-2xl">
+  {all?.balance?.toLocaleString()}
+</p>
           <p className="bg-custom bg-clip-text text-transparent text-2xl font-black">&nbsp;LAR</p>
         </div>
       </div>

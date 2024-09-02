@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { getUserFromFarm, updateFarmBalance } from '../utils/firestoreFunctions';
 import Footer from '../Component/Footer';
 import { ClipLoader } from 'react-spinners';
 import './bg.css';
@@ -15,8 +14,7 @@ const Squad = () => {
   const [username, setUserName] = useState(null);
   const [userSquad, setUserSquad] = useState(null);
   const [squads, setSquads] = useState([]);
-  const [farmData, setFarmData] = useState(null);
-  const [farmBalance, setFarmBalance] = useState(0); // State for farmBalance
+  const [all, setAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showRCSquad, setShowRCSquad] = useState(false);
   const [error, setError] = useState(null); // Define error state
@@ -62,23 +60,36 @@ const Squad = () => {
     }
   }, [userId]);
 
-  useEffect(() => {
-    const fetchFarmData = async () => {
+ useEffect(() => { 
+    const fetchAllData = async () => {
       try {
-        const data = await getUserFromFarm(userId);
-        setFarmData(data);
-        setFarmBalance(data.FarmBalance || 0); // Fetch and set farmBalance
+        const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/getuserbackup/${userId}`);
+        const all = response.data;
+        
+        // Calculate Balance
+        const dailyBalance = parseFloat(all.dailyBalance);
+        const specialBalance = parseFloat(all.specialBalance);
+        const initialFarmBalance = parseFloat(all.initialFarmBalance);
+        const farmClaimCount = parseInt(all.farmClaimCount);
+  
+        const balance = dailyBalance + specialBalance + initialFarmBalance + (farmClaimCount * 14400);
+        setAll({ ...all, balance });
+  
+        console.log('Fetched all data:', { ...all, balance });
       } catch (error) {
-        console.error('Error fetching farm data:', error);
+        console.error('Error fetching all data:', error.message);
+        setError(`Failed to fetch data: ${error.message}`);
       } finally {
         setLoading(false);
       }
     };
-
+  
     if (userId) {
-      fetchFarmData();
+      setLoading(true);
+      fetchAllData();
     }
   }, [userId]);
+  
 
 
   const copyToClipboard = () => {
@@ -107,7 +118,9 @@ const Squad = () => {
     }
   };
 
-  const handleClaim = async () => {
+ 
+
+  const handleClaim = async (userId) => {
     if (navigator.vibrate) {
       navigator.vibrate(500); // Vibrate for 500ms
     }
@@ -116,7 +129,7 @@ const Squad = () => {
     const difference = Number(earning) - Number(userSquad?.claimedReferral || 0);
     const newClaimedReferral = Number(userSquad?.claimedReferral || 0) + Number(difference);
     const newTotalSquad = Number(userSquad?.totalBalance || 0) + Number(difference);
-    const totalBalance = Number(farmBalance || 0) + Number(newTotalSquad);
+    const totalBalance = Number(all?.balance || 0) + Number(newTotalSquad);
   
     console.log('Earning:', earning);
     console.log('Difference:', difference);
@@ -137,16 +150,12 @@ const Squad = () => {
       // Re-fetch updated squad and farm data
       const updatedSquadResponse = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/squad/${userId}`);
       const updatedSquad = updatedSquadResponse.data.userSquad;
-      const updatedFarmData = await getUserFromFarm(userId);
+     console.log('Claim update response:', updatedSquadResponse.data);
   
-      console.log('Claim update response:', updatedSquadResponse.data);
-  
-      console.log('farm update response:', updatedFarmData.data);
-  
+   
 
       setUserSquad(updatedSquad);
-      setFarmBalance(updatedFarmData.FarmBalance || 0);
-    } catch (error) {
+   } catch (error) {
       console.error('Error during claim:', error);
       setError('Error during claim');
     }
@@ -172,7 +181,7 @@ const Squad = () => {
     );
   }
 
-  const totalBalance = Number(farmBalance || 0) + Number(userSquad?.totalSquad || 0);
+  const totalBalance = Number(all?.balance || 0) + Number(userSquad?.totalSquad || 0);
   const displayTotalBalance = totalBalance.toLocaleString('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
@@ -180,13 +189,15 @@ const Squad = () => {
 
 
   console.log('TotalBal', totalBalance);
+  console.log('Total', all?.balance);
   
   // Format the difference with commas and two decimal places
  
 
   const earning = Number(userSquad?.referralCount || 0) * 5000;
   const difference = Number(earning) - Number(userSquad?.claimedReferral || 0);
- 
+  const newTotalSquad = Number(userSquad?.totalBalance || 0) + Number(difference);
+    
   const formattedDifference = difference.toLocaleString('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
@@ -197,6 +208,7 @@ const Squad = () => {
   console.log('Earning:', earning);
     console.log('Difference:', difference);
     console.log('Total Balance:', totalBalance);
+    console.log('new Balance:', newTotalSquad);
   
   return (
     <div
