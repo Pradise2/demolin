@@ -265,7 +265,7 @@ const Tasks = () => {
       setShowRCTasks(true);
       setShowGoButton(true);
      
-      setTimeout(() => setShowRCTasks(false), 1000);
+      setTimeout(() => setShowRCTasks(false), 5000);
     } catch (error) {
       console.error('Error updating task status:', error);
     }
