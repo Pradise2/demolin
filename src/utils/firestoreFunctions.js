@@ -69,25 +69,46 @@ export const getUserStasks = async (userId) => {
 
 
 // Farm Collection Functions
-export const addUserToFarm = async (userId, farmData) => {
+
+export const addUserToFarm = async (userId, farm) => {
   try {
-    const response = await axios.post('https://lunarapp.thelunarcoin.com/backend/api/farm/add', { userId, farmData });
-    console.log(response.data);
-    return response.data;
+    await setDoc(doc(db, "Farm", userId.toString()), farm);
+    console.log("User added to Farm");
   } catch (error) {
     console.error("Error adding user to farm:", error);
-    return null;
   }
 };
 
 export const getUserFromFarm = async (userId) => {
   try {
-    const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/farm/${userId}`);
-    console.log(response.data);
-    return response.data;
+    const docRef = doc(db, "Farm", userId.toString());
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such document in Farm!");
+      return null;
+    }
   } catch (error) {
     console.error("Error getting user from farm:", error);
     return null;
+  }
+};
+
+export const getAllUsersFromFarm = async () => {
+  try {
+    const farmCollectionRef = collection(db, "Farm");
+    const farmSnapshot = await getDocs(farmCollectionRef);
+    const farmDataArray = farmSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    return farmDataArray;
+  } catch (error) {
+    console.error("Error getting all users from farm:", error);
+    return [];
   }
 };
 

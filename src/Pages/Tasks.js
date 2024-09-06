@@ -42,9 +42,11 @@ const Tasks = () => {
     '11': telegram,
     '12': twitter,
     '14': youtube,
-    '15': youtube
+    '15': youtube,
+    '16': youtube
   };
- 
+
+  
   const dtaskLogos = {
     '1': youtube,
     '2': youtube,
@@ -79,12 +81,16 @@ const Tasks = () => {
     '31': telegram,
     '32': telegram,
     '33': telegram,
-    '34': telegram,
+    '34': twitter,
     '35': twitter,
-    '36': twitter,
+    '36': telegram,
     '37': telegram,
     '38': telegram,
+    '39': telegram,
+    '40': twitter,
+    '41': twitter,
   };
+
 
 
 

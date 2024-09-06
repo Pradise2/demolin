@@ -10,7 +10,7 @@ import moon from './moon.png'
 
 const Squad = () => {
   const [copied, setCopied] = useState(false);
-  const [userId, setUserId] = useState('001');
+  const [userId, setUserId] = useState('743737380');
   const [username, setUserName] = useState(null);
   const [userSquad, setUserSquad] = useState(null);
   const [squads, setSquads] = useState([]);
@@ -167,21 +167,31 @@ const Squad = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-cover text-white p-4">
-        <div className="flex flex-col items-center space-y-4">
-          <h1 className="text-white text-4xl font-normal">
-            <ClipLoader
-              color="#FFD700" // Golden color
-              size={60}
-              speedMultiplier={1}
-            />
-          </h1>
+      <div
+        className="relative min-h-screen bg-black bg-blur-sm bg-don bg-center bg-no-repeat text-white flex items-center justify-center p-4 space-y-4"
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div
+          className="absolute transform -translate-y-1/2 top-1/2 flex justify-center items-center"
+          style={{ top: '50%' }}
+        >
+          <ClipLoader
+            color="#FFD700"
+            size={100}
+            speedMultiplier={1}
+          />
         </div>
       </div>
     );
   }
+  // Format the difference with commas and two decimal places
+ 
 
-  const totalBalance = Number(all?.balance || 0) + Number(userSquad?.totalSquad || 0);
+  const earning = Number(userSquad?.referralCount || 0) * 5000;
+  const difference = Number(earning) - Number(userSquad?.claimedReferral || 0);
+
+  
+  const totalBalance = Number(all?.balance || 0) + Number(earning || 0);
   const displayTotalBalance = totalBalance.toLocaleString('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
@@ -191,11 +201,7 @@ const Squad = () => {
   console.log('TotalBal', totalBalance);
   console.log('Total', all?.balance);
   
-  // Format the difference with commas and two decimal places
- 
 
-  const earning = Number(userSquad?.referralCount || 0) * 5000;
-  const difference = Number(earning) - Number(userSquad?.claimedReferral || 0);
   const newTotalSquad = Number(userSquad?.totalBalance || 0) + Number(difference);
     
   const formattedDifference = difference.toLocaleString('en-US', {
