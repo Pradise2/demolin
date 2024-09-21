@@ -125,30 +125,27 @@ const Earn = () => {
         
       <div className="flex flex-col space-y-4 items-center ">
   <div className='items-center flex-col flex'>
-     <p className='text-2xl font-bold w-full'>3 weeks referral campaign</p>
-  <p>$25 per referral</p>
+     <p className='text-2xl font-normal w-full'>3 weeks referral campaign</p>
+  <p className=''>$25 per referral</p>
+    
   </div>
   <input
     type="text"
     id="referralName"
     name="Wallet Address"
-    className="border w-full p-2 rounded"
+    className="border bg-da w-full p-2 rounded-lg"
     placeholder="Wallet Address"
   />
-  <button className="w-full mt-4 p-2 bg-blue-500 text-white rounded">
+  <button className="w-full mt-4 p-2 bg-custom text-white rounded-lg">
     Submit
   </button>
 </div>
 
-
-
       </div>
 
       </div>
 
-      <div className="w-full max-w-md rounded-3xl bg-darkGray fixed bottom-0 left-0 flex justify-around py-1 z-20">
-        <Footer />
-      </div>
+    
     </div>
   );
 };

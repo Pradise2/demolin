@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         darkGray: '#282828',
+        da: '#4D4D4D',
         CharcoalGray: '#424242',
         vividRed: '#F00F0B', 
         custom: 'linear-gradient(91.68deg, rgba(255, 215, 0, 0.4) -2.31%, rgba(187, 158, 2, 0.4) 38.68%, rgba(187, 158, 2, 0.4) 59.17%, rgba(255, 215, 0, 0.4) 100.15%)',
