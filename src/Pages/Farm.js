@@ -13,7 +13,7 @@ import axios from 'axios';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
-  const [userId, setUserId] = useState(null); 
+  const [userId, setUserId] = useState('743737380'); 
   // const [userId, setUserId] = useState(null);
 
   const [userName, setUserName] = useState(null);
