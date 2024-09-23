@@ -163,7 +163,6 @@ const Tasks = () => {
    }
   }, [userId]);
 
-  
 
   const saveUserData = useCallback(async () => {
     if (userId && userData) {
@@ -397,7 +396,7 @@ const Tasks = () => {
         <p className="text-zinc-500 mt-2">But hey, only qualified actions unlock the <br /> LAR galaxy! ✨</p>
         <p className='text-left font-bold m-2 text-2xl'>Weekly</p>
 
-        <div className="flex w-full bg-hy pl-4 pt-2 pb-2 flex-col rounded-3xl">
+        <div className="flex w-full bg-sinc bg-opacity-10 pl-4 pt-2 pb-2 flex-col rounded-3xl">
       {/* Conditionally render the main content */}
       {!isContentHidden && (
         <div className='flex flex-col'>
