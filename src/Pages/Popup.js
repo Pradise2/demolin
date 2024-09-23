@@ -187,7 +187,7 @@ const Popup = ({ onClose }) => {
 
 
   return (
-    <div className="backdrop-blur-sm bg-hy bg-opacity-10 flex items-center justify-center fixed inset-0 z-50">
+    <div className="backdrop-blur-sm min-h-screen bg-hy bg-opacity-10 flex items-center justify-center fixed inset-0 z-50">
       <div className="bg-card rounded-lg shadow-lg p-6 max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-primary">
