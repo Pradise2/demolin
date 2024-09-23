@@ -11,6 +11,7 @@ import youtube from './youtube.png'
 import twitter from './twitter.png'
 import axios from 'axios';
 import telegram  from './telegram.png';
+import Popup from './Popup';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
@@ -25,7 +26,19 @@ const Tasks = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dailyTask, setDailyTask] = useState([]);
+ 
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isContentHidden, setIsContentHidden] = useState(false);
 
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+    setIsContentHidden(true); // Hide the content
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setIsContentHidden(false); // Show the content again
+  };
 
 
   const taskLogos = {
@@ -384,17 +397,21 @@ const Tasks = () => {
         <p className="text-zinc-500 mt-2">But hey, only qualified actions unlock the <br /> LAR galaxy! ✨</p>
         <p className='text-left font-bold m-2 text-2xl'>Weekly</p>
 
-<div className="flex w-full bg-sinc bg-opacity-10 p-4 flex-col rounded-3xl">
-  <div className='flex flex-col  '>
-    <div className='text-left ml-4 space-y-2 flex-col flex'>
-      <p className='text-2xl font-normal w-full'>3 weeks referral campaign</p>
-      <p className=''>$5 per referral</p> 
-    </div> 
-      <button className="w-16 m-4 p-2  bg-custom text-white rounded-2xl">
-        Open
-      </button>
-  </div>
-</div>
+        <div className="flex w-full bg-sinc bg-opacity-10 pl-4 pt-2 pb-2 flex-col rounded-3xl">
+      <div className='flex flex-col'>
+        <div className='text-left ml-4 space-y-2 flex-col flex'>
+          <p className='text-xl font-normal w-full'>3 weeks referral campaign</p>
+          <p className=''>$5 per referral</p>
+        </div>
+        <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-custom text-white rounded-2xl">
+          Open
+        </button>
+      </div>
+
+      {/* Conditionally render the ReferralPopup component */}
+      {isPopupOpen && <Popup onClose={handleClosePopup} />}
+    </div>
+  
 
         <div className="relative flex justify-center w-full mt-4">
                 <button 
