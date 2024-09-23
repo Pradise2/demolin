@@ -126,8 +126,7 @@ const Earn = () => {
       <div className="flex flex-col space-y-4 items-center ">
   <div className='items-center flex-col flex'>
      <p className='text-2xl font-normal w-full'>3 weeks referral campaign</p>
-  <p className=''>$25 per referral</p>
-    
+  <p className=''>$5 per referral</p>  
   </div>
   <input
     type="text"
@@ -145,7 +144,9 @@ const Earn = () => {
 
       </div>
 
-    
+      <div className="w-full max-w-md rounded-3xl bg-darkGray fixed bottom-0 left-0 flex justify-around py-1 z-20">
+        <Footer />
+      </div>
     </div>
   );
 };
