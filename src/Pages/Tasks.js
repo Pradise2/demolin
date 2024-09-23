@@ -398,19 +398,20 @@ const Tasks = () => {
         <p className='text-left font-bold m-2 text-2xl'>Weekly</p>
 
         <div className="flex w-full bg-sinc bg-opacity-10 pl-4 pt-2 pb-2 flex-col rounded-3xl">
-      <div className='flex flex-col'>
-        <div className='text-left ml-4 space-y-2 flex-col flex'>
-          <p className='text-xl font-normal w-full'>3 weeks referral campaign</p>
-          <p className=''>$5 per referral</p>
+      {/* Conditionally render the main content */}
+      {!isContentHidden && (
+        <div className='flex flex-col'>
+          <div className='text-left ml-4 space-y-2 flex-col flex'>
+            <p className='text-xl font-normal w-full'>3 weeks referral campaign</p>
+            <p className=''>$5 per referral</p>
+          </div>
+          <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-custom text-white rounded-2xl">
+            Open
+          </button>
         </div>
-        <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-custom text-white rounded-2xl">
-          Open
-        </button>
-      </div>
+      )}
 
-      {/* Conditionally render the ReferralPopup component */}
-      {isPopupOpen && <Popup onClose={handleClosePopup} />}
-    </div>
+    
   
 
         <div className="relative flex justify-center w-full mt-4">
@@ -573,6 +574,9 @@ const Tasks = () => {
       <div className="w-full max-w-md sticky bottom-0 left-0 flex text-white bg-zinc-900 justify-around py-1">
         <Footer />
       </div>
+        {/* Conditionally render the ReferralPopup component */}
+        {isPopupOpen && <Popup onClose={handleClosePopup} />}
+    </div>
     </div>
   );
 };
