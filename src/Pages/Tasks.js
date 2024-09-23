@@ -93,7 +93,6 @@ const Tasks = () => {
 
 
 
-
   const initializeUserId = useCallback(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       const { WebApp } = window.Telegram;
@@ -382,8 +381,26 @@ const Tasks = () => {
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       <div className="relative flex-grow overflow-y-auto text-center text-white p-4">
         <h1 className="text-2xl font-bold">Curious about the moon's secrets? <br />Complete tasks to find out!</h1>
-                <p className="text-zinc-500 mt-2">But hey, only qualified actions unlock the <br /> LAR galaxy! ✨</p>
+        <p className="text-zinc-500 mt-2">But hey, only qualified actions unlock the <br /> LAR galaxy! ✨</p>
+        <p className='text-left font-bold ml-2 text-2xl'>Weekly</p>
+
+
+<div className="flex w-full bg-sinc bg-opacity-10 p-4 flex-col ">
+  <div className='flex flex-col  '>
+    <div className='text-left ml-4 space-y-1 flex-col flex'>
+      <p className='text-2xl font-normal w-full'>3 weeks referral campaign</p>
+      <p className=''>$5 per referral</p> 
+    </div> 
+
+      <button className="w-14 p-2 bg-custom text-white rounded-3xl">
+        Open
+      </button>
+    
+  </div>
+</div>
+
         <div className="relative flex justify-center w-full mt-4">
+       
           <button 
             className={`py-2 bg-opacity-70 text-center text-sm w-full rounded-2xl ${taskFilter === 'new' ? 'bg-white text-black' : 'bg-zinc-950 text-zinc-400'}`}
             onClick={() => setTaskFilter('new')}
@@ -523,8 +540,6 @@ const Tasks = () => {
 )}
 
         </div>
-  
-        
       </div>
   
       <AnimatePresence>
@@ -547,6 +562,5 @@ const Tasks = () => {
       </div>
     </div>
   );
-  
 };
 export default Tasks; 
