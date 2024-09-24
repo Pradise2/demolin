@@ -5,6 +5,7 @@ import youtube from './youtube.png'
 import twitter from './twitter.png'
 import axios from 'axios';
 import telegram  from './telegram.png';
+import frame from './Frame.png'
 
 const Popup = ({ onClose }) => {
   const [specialTask, setSpecialTask] = useState([]);
@@ -198,11 +199,12 @@ const Popup = ({ onClose }) => {
           </button>
         </div>
         <div className="mb-4">
-          <img
-            src="https://placehold.co/400x200?text=ForU+AI+Quest"
-            alt="ForU AI Quest"
-            className="rounded-lg w-full"
-          />
+        <img
+  src={frame}
+  alt="LunarCoin Frame"
+  className="rounded-lg h-[270px] w-full"
+/>
+
         </div>
         <h3 className="text-lg font-medium text-primary">ForU AI Quest 1/2</h3>
         <p className="text-muted-foreground mb-4">
