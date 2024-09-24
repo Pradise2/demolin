@@ -204,16 +204,28 @@ const Popup = ({ onClose }) => {
   alt="LunarCoin Frame"
   className="rounded-lg h-[270px] w-full"
 />
-
         </div>
-        <h3 className="text-lg font-medium text-primary">ForU AI Quest 1/2</h3>
-        <p className="text-muted-foreground mb-4">
+       <p className="text-muted-foreground mb-2">
           Create your Data Avatar and click Memecoin generator in ForU app & connect Wallet in Blum to be eligible for
           future airdrop from ForU.
         </p>
 
+        <div className="relative flex justify-center w-full mt-4">
+                <button 
+            className={`py-2 bg-opacity-70 text-center text-sm w-full rounded-2xl ${taskFilter === 'new' ? 'bg-white text-black' : 'bg-zinc-950 text-zinc-400'}`}
+            onClick={() => setTaskFilter('new')}
+          > 
+            New
+          </button>
+          <button 
+            className={`bg-opacity-70 py-2 text-center text-sm w-full rounded-2xl ${taskFilter === 'completed' ? 'bg-white text-black' : 'bg-zinc-950 text-zinc-400'}`}
+            onClick={() => setTaskFilter('completed')}
+          >
+            Completed
+          </button>
+        </div>
+
   <div className="relative mt-6 space-y-4">
-          <h1 className='font-bold text-2xl flex'>Special Tasks</h1>
           {filteredTasks.length === 0 && taskFilter === 'completed' && (
             <div>No completed tasks yet.</div>
           )}
