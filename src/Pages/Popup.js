@@ -103,7 +103,7 @@ const Popup = ({ onClose }) => {
     window.open(link, '_blank');
     
     try {
-      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/specialtask/update', {
+      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/bonustask/updateStatus', {
         userId,
         taskId,
       });
