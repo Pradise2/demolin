@@ -59,7 +59,7 @@ const Popup = ({ onClose }) => {
   useEffect(() => { 
     const fetchSpecialTaskData = async () => {
       try {
-        const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/specialtask/${userId}`);
+        const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/bonustask/${userId}`);
         const special = response.data;
         setSpecialTask(special);
       } catch (error) {
@@ -102,7 +102,7 @@ const Popup = ({ onClose }) => {
     }
   
     try {
-      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/specialtask/updateStatus', {
+      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/bonustask/updateStatus', {
         userId,
         taskId,
       });
@@ -187,7 +187,7 @@ const Popup = ({ onClose }) => {
 
 
   return (
-    <div className="backdrop-blur-sm min-h-screen bg-hy bg-opacity-10 flex items-center justify-center fixed inset-0 z-50">
+    <div className="backdrop-blur-sm  min-h-screen bg-hy bg-opacity-10 flex items-center justify-center fixed inset-0 z-50">
       <div className="bg-card rounded-lg shadow-lg p-6 max-w-md w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-primary">
