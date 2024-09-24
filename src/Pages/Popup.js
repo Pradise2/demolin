@@ -136,8 +136,8 @@ const Popup = ({ onClose }) => {
 
 
   return (
-    <div className="backdrop-blur-sm  min-h-screen bg-hy bg-opacity-10 flex items-center justify-center fixed inset-0 z-50">
-      <div className="bg-card rounded-lg shadow-lg p-6 max-w-md w-full">
+    <div className="backdrop-blur-sm bg-hy bg-opacity-10 flex items-center justify-center fixed inset-0 z-50">
+      <div className="bg-card rounded-lg shadow-lg p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-primary">
             LunarCoin <span className="text-gold-500">★</span>
@@ -147,19 +147,19 @@ const Popup = ({ onClose }) => {
           </button>
         </div>
         <div className="mb-4">
-        <img
-  src={frame}
-  alt="LunarCoin Frame"
-  className="rounded-lg h-[270px] w-full"
-/>
+          <img
+            src={frame}
+            alt="LunarCoin Frame"
+            className="rounded-lg h-[270px] w-full"
+          />
         </div>
-       <p className="text-muted-foreground mb-2">
+        <p className="text-muted-foreground mb-2">
           Create your Data Avatar and click Memecoin generator in ForU app & connect Wallet in Blum to be eligible for
           future airdrop from ForU.
         </p>
-
+  
         <div className="relative flex justify-center w-full mt-4">
-                <button 
+          <button 
             className={`py-2 bg-opacity-70 text-center text-sm w-full rounded-2xl ${taskFilter === 'new' ? 'bg-white text-black' : 'bg-zinc-950 text-zinc-400'}`}
             onClick={() => setTaskFilter('new')}
           > 
@@ -172,62 +172,60 @@ const Popup = ({ onClose }) => {
             Completed
           </button>
         </div>
-
-  <div className="relative mt-6 space-y-4">
+  
+        <div className="relative mt-6 space-y-4">
           {filteredTasks.length === 0 && taskFilter === 'completed' && (
             <div>No completed tasks yet.</div>
           )}
-        {filteredTasks.length > 0 ? (
-  filteredTasks.map((task) => {
-    const taskStatus = task.status;
-   
-    // Determine the logo based on task status
-    const taskLogo = taskStatus === 'complete' ? logo : taskLogos[task.taskId] || ''; 
-
-    return (
-      <div key={task.id} className="bg-sinc bg-opacity-10 p-4 rounded-xl flex justify-between items-center">
-        <div className="flex items-center space-x-3">
-          <div className='bg-hy rounded-3xl'>
-            <img aria-hidden="true" alt="task-icon" src={taskLogo} className="m-2 w-6 h-6" />
-          </div>
-          <div className='flex text-left flex-col'>
-            <p className="font-bold text-white">{task.title}</p>
-            <p className="text-golden-moon font-semibold">{task.reward} LAR</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-2">
-          {taskStatus === 'start' && (
-            <button 
-            onClick={() => handleStartClick(task.userId, task.taskId, task.linkz)}
-            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-              disabled={loadingTask === task.taskId}
-            >
-              {loadingTask === task.taskId ? (
-                <div className="spinner-border spinner-border-sm"></div>
-              ) : (
-                'Start'
-              )}
-            </button>
+          {filteredTasks.length > 0 ? (
+            filteredTasks.map((task) => {
+              const taskStatus = task.status;
+              
+              // Determine the logo based on task status
+              const taskLogo = taskStatus === 'complete' ? logo : taskLogos[task.taskId] || ''; 
+  
+              return (
+                <div key={task.id} className=" text-sm bg-opacity-10 rounded-xl flex justify-between items-center">
+                  <div className="flex items-center space-x-3">
+                    <div className='bg-hy rounded-3xl'>
+                      <img aria-hidden="true" alt="task-icon" src={taskLogo} className="m-2 w-6 h-6" />
+                    </div>
+                    <div className='flex text-left flex-col'>
+                      <p className="font-bold text-white">{task.title}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {taskStatus === 'start' && (
+                      <button 
+                        onClick={() => handleStartClick(task.userId, task.taskId, task.linkz)}
+                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+                        disabled={loadingTask === task.taskId}
+                      >
+                        {loadingTask === task.taskId ? (
+                          <div className="spinner-border spinner-border-sm"></div>
+                        ) : (
+                          'Start'
+                        )}
+                      </button>
+                    )}
+                    {taskStatus === 'completed' && (
+                      <button 
+                        className="bg-golden-moon text-white py-2 px-4 rounded-xl"
+                        disabled
+                      >
+                        Completed
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )
+            })
+          ) : (
+            <div>No special tasks available.</div>
           )}
-         
-          {taskStatus === 'completed' && (
-            <button 
-              className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-              disabled
-            >
-              Completed
-            </button>
-          )}
         </div>
-      </div>
-    )
-  })
-) : (
-  <div>No special tasks available.</div>
-)}
-
-        </div>
-        <div className="flex flex-row justify-between items-center">
+  
+        <div className="flex flex-row justify-between items-center mt-4">
           <input
             type="text"
             id="referralName"
@@ -242,6 +240,7 @@ const Popup = ({ onClose }) => {
       </div>
     </div>
   );
+  
 };
 
 export default Popup;
