@@ -10,7 +10,7 @@ import frame from './Frame.png'
 const Popup = ({ onClose }) => {
   const [specialTask, setSpecialTask] = useState([]);
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState('001');
+  const [userId, setUserId] = useState(null);
   const [taskFilter, setTaskFilter] = useState('new');
   const [showRCTasks, setShowRCTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -137,7 +137,7 @@ const Popup = ({ onClose }) => {
 
   return (
     <div className="backdrop-blur-sm bg-hy bg-opacity-10 flex items-center justify-center fixed inset-0 z-50">
-      <div className="bg-card rounded-lg shadow-lg p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
+      <div className="bg-card bg-zinc-800 rounded-lg shadow-lg p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-primary">
             LunarCoin <span className="text-gold-500">★</span>
