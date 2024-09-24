@@ -142,7 +142,7 @@ const Popup = ({ onClose }) => {
           <h2 className="text-xl font-semibold text-primary">
             LunarCoin <span className="text-gold-500">★</span>
           </h2>
-          <button onClick={onClose} className="text-muted-foreground hover:text-white">
+          <button onClick={onClose} className="text-golden-moon hover:text-white">
             ✖
           </button>
         </div>

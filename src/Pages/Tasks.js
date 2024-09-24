@@ -15,7 +15,7 @@ import Popup from './Popup';
 
 const Tasks = () => {
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState('001'); // Replace with dynamic ID if possible
+  const [userId, setUserId] = useState(null); // Replace with dynamic ID if possible
   const [taskFilter, setTaskFilter] = useState('new');
   const [loadingTask, setLoadingTask] = useState(null);
   const [specialTask, setSpecialTask] = useState([]);
@@ -26,7 +26,6 @@ const Tasks = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dailyTask, setDailyTask] = useState([]);
- 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isContentHidden, setIsContentHidden] = useState(false);
 
@@ -404,7 +403,7 @@ const Tasks = () => {
             <p className='text-xl font-normal w-full'>3 weeks referral campaign</p>
             <p className=''>$5 per referral</p>
           </div>
-          <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-custom text-white rounded-2xl">
+          <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-golden-moon text-white rounded-2xl">
             Open
           </button>
         </div>
