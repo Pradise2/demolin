@@ -10,7 +10,7 @@ import frame from './Frame.png'
 const Popup = ({ onClose }) => {
   const [specialTask, setSpecialTask] = useState([]);
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('001');
   const [taskFilter, setTaskFilter] = useState('new');
   const [showRCTasks, setShowRCTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -142,7 +142,7 @@ const Popup = ({ onClose }) => {
           <h2 className="text-xl font-semibold text-primary">
             LunarCoin <span className="text-gold-500">★</span>
           </h2>
-          <button onClick={onClose} className="text-golden-moon hover:text-white">
+          <button onClick={onClose} className="text-golden-moon hover:text-golden-moon">
             ✖
           </button>
         </div>
@@ -157,6 +157,7 @@ const Popup = ({ onClose }) => {
           Create your Data Avatar and click Memecoin generator in ForU app & connect Wallet in Blum to be eligible for
           future airdrop from ForU.
         </p>
+        <p className=''> 0/5 Invite </p>
   
         <div className="relative flex justify-center w-full mt-4">
           <button 
