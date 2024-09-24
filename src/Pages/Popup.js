@@ -95,59 +95,7 @@ const Popup = ({ onClose }) => {
     };
   }, [saveUserData]);
 
-  const handleClaimClick = async (userId, taskId, reward) => {
-    const task = specialTask.find(t => t.taskId === taskId);
   
-    if (navigator.vibrate) {
-      navigator.vibrate(500);
-    }
-  
-    try {
-      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/bonustask/updateStatus', {
-        userId,
-        taskId,
-      });
-  
-      // Update the specific task's status to "completed"
-      setSpecialTask(prevTasks => prevTasks.map(task => 
-        task.taskId === taskId ? { ...task, status: 'complete' } : task
-      ));
-  
-      setUserData(prevData => ({
-        ...prevData,
-        TasksComplete: {
-          ...prevData.TasksComplete,
-          [taskId]: true,
-        },
-        TasksStatus: {
-          ...prevData.TasksStatus,
-          [taskId]: 'completed',
-        }
-      }));
-  
-     
-      setSelectedTask(task);
-      setShowRCTasks(true);
-      setShowGoButton(true);
-      
-      setTimeout(() => setShowRCTasks(false), 1000);
-    } catch (error) {
-      console.error('Error updating task status:', error);
-    }
-  
-    try {
-      // Ensure reward is not null or undefined before making the API call
-      await axios.put('https://lunarapp.thelunarcoin.com/backend/api/specialtask/userbackup', {
-        userId,
-        specialBalance: reward, // Assuming you meant to pass the reward as the specialBalance
-      });
-  
-      console.log('specialBalance:', reward);
-    } catch (error) {
-      console.error('Error performing user backup:', error);
-    }
-  };
-
   const handleStartClick = async (userId, taskId, link) => {
     setLoadingTask(taskId);
     console.log('Start button clicked for taskId:', taskId);
@@ -166,10 +114,10 @@ const Popup = ({ onClose }) => {
   
         // Update the specific task's status to "claim"
         setSpecialTask(prevTasks => prevTasks.map(task => 
-          task.taskId === taskId ? { ...task, status: 'claim' } : task
+          task.taskId === taskId ? { ...task, status: 'complete' } : task
         ));
         
-   }, 17000);
+   }, 20000);
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
@@ -261,14 +209,7 @@ const Popup = ({ onClose }) => {
               )}
             </button>
           )}
-          {taskStatus === 'claim' && (
-            <button 
-            onClick={() => handleClaimClick(task.userId, task.taskId, parseInt(task.reward))}
-            className="bg-golden-moon text-white py-2 px-4 rounded-xl"
-            >
-              Claim
-            </button>
-          )}
+         
           {taskStatus === 'completed' && (
             <button 
               className="bg-golden-moon text-white py-2 px-4 rounded-xl"
