@@ -12,7 +12,7 @@ const Popup = ({ onClose }) => {
   const [refTask, setRefTask] = useState(0);
   const [checkTask, setCheckTask] = useState([]);
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('001');
   const [taskFilter, setTaskFilter] = useState('new');
   const [showRCTasks, setShowRCTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -204,12 +204,14 @@ const Popup = ({ onClose }) => {
           />
         </div>
         <p className="text-muted-foreground mb-2">
-        We're excited to launch our Lunar Astronauts Crypto Giveaway! To celebrate our platform,
-        we're giving away $100,000 worth of cryptocurrency to participants who complete simple tasks.
-        Plus, earn $15 for each friend you refer!<br/> Don’t miss out on your chance to win!
-        </p>
-        <p> {refTask}/5 Invite </p>
-  
+    Get a chance to earn up to $15 by completing simple tasks and inviting 5 friends!
+</p>
+<ul className='text-left mb-2'>
+    <li>🔹 Complete tasks to unlock rewards</li>
+    <li>🔹 Refer 20 friends or more to earn an additional $20 bonus!</li>
+</ul>
+<p>Don’t miss out on this opportunity! Start completing tasks and sharing with friends today! 🌕</p>
+<p className='text-golden-moon' >{refTask} out of 5 invites completed</p>
         <div className="relative flex justify-center w-full mt-4">
           <button 
             className={`py-2 bg-opacity-70 text-center text-sm w-full rounded-2xl ${taskFilter === 'new' ? 'bg-white text-black' : 'bg-zinc-950 text-zinc-400'}`}
@@ -274,18 +276,13 @@ const Popup = ({ onClose }) => {
             })
           ) : (
             checkTask === 'Task is completed' && (
-              <div className="flex flex-row justify-between items-center mt-4">
-                <input
-                  type="text"
-                  id="referralName"
-                  name="Wallet Address"
-                  className="border bg-da w-full p-1 rounded-lg"
-                  placeholder="Wallet Address"
-                />
-                <button className="bg-primary text-primary-foreground hover:bg-primary/80 py-1 px-3 rounded-md">
-                  Submit
-                </button>
-              </div>
+              <div className="flex text-left flex-row justify-between items-center mt-4">
+              <p>Claim button will be activated on Oct 15th, only for eligible users</p>
+              <button className="bg-zinc-500 text-white py-2 px-5 rounded-xl cursor-not-allowed">
+                Claim
+              </button>
+            </div>
+            
             )
           )}
         </div>
