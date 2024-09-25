@@ -134,27 +134,27 @@ const Earn = () => {
           </button>
         </div>
 
-      <div className="bg-golden p-4 rounded-xl flex justify-center items-center shadow-lg">
-        
-      <div className="flex w-full bg-sinc bg-opacity-10 pl-4 pt-2 pb-2 flex-col rounded-3xl">
+       
+      <div className="flex w-full bg-golden pl-4 pt-2 pb-2 flex-col rounded-3xl">
       {/* Conditionally render the main content */}
       {!isContentHidden && (
         <div className='flex flex-col'>
           <div className='text-left ml-4 space-y-2 flex-col flex'>
-            <p className='text-xl font-normal w-full'>🚀 Lunar Astronauts </p>
-            <p className='text-xl font-normal w-full'>Crypto Giveaway Campaign! 🚀✨</p>
+            <p className='text-xl font-normal w-full'>🚀 Lunar Astronauts 
+              <br/> Usdt Airdrop Campaign! 🚀✨ </p>
           </div>
           <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-golden-moon text-white rounded-2xl">
             Open
           </button>
         </div>
+        
       )}
 
       {/* Conditionally render the ReferralPopup component */}
       {isPopupOpen && <Popup onClose={handleClosePopup} />}
     </div>
 
-      </div>
+      
 
       </div>
 

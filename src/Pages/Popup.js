@@ -208,10 +208,10 @@ const Popup = ({ onClose }) => {
 </p>
 <ul className='text-left mb-2'>
     <li>🔹 Complete tasks to unlock rewards</li>
-    <li>🔹 Refer 20 friends or more to earn an additional $20 bonus!</li>
+    <li>🔹 Refer 16 friends or more to earn an additional $20 bonus!</li>
 </ul>
 <p>Don’t miss out on this opportunity! Start completing tasks and sharing with friends today! 🌕</p>
-<p className='text-golden-moon' >{refTask} out of 5 invites completed</p>
+<p className='text-golden-moon text-center' >{refTask} out of 5 invites completed</p>
         <div className="relative flex justify-center w-full mt-4">
           <button 
             className={`py-2 bg-opacity-70 text-center text-sm w-full rounded-2xl ${taskFilter === 'new' ? 'bg-white text-black' : 'bg-zinc-950 text-zinc-400'}`}
