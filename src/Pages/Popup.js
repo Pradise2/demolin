@@ -12,7 +12,7 @@ const Popup = ({ onClose }) => {
   const [refTask, setRefTask] = useState(0);
   const [checkTask, setCheckTask] = useState([]);
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState('001');
+  const [userId, setUserId] = useState(null);
   const [taskFilter, setTaskFilter] = useState('new');
   const [showRCTasks, setShowRCTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
