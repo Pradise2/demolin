@@ -393,15 +393,15 @@ const Tasks = () => {
       <div className="relative flex-grow overflow-y-auto text-center text-white p-4">
         <h1 className="text-2xl font-bold">Curious about the moon's secrets? <br />Complete tasks to find out!</h1>
         <p className="text-zinc-500 mt-2">But hey, only qualified actions unlock the <br /> LAR galaxy! ✨</p>
-        <p className='text-left font-bold m-2 text-2xl'>Weekly</p>
+        <p className='text-left font-bold m-2 text-2xl'>Weekly Earn</p>
 
         <div className="flex w-full bg-sinc bg-opacity-10 pl-4 pt-2 pb-2 flex-col rounded-3xl">
       {/* Conditionally render the main content */}
       {!isContentHidden && (
         <div className='flex flex-col'>
           <div className='text-left ml-4 space-y-2 flex-col flex'>
-            <p className='text-xl font-normal w-full'>3 weeks referral campaign</p>
-            <p className=''>$5 per referral</p>
+            <p className='text-xl font-normal w-full'>Lunar Astronauts </p>
+            <p className='text-xl font-normal w-full'>Crypto Giveaway Campaign! 🚀✨</p>
           </div>
           <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-golden-moon text-white rounded-2xl">
             Open

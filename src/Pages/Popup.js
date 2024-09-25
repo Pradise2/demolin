@@ -9,6 +9,8 @@ import frame from './Frame.png'
 
 const Popup = ({ onClose }) => {
   const [specialTask, setSpecialTask] = useState([]);
+  const [refTask, setRefTask] = useState(0);
+  const [checkTask, setCheckTask] = useState([]);
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
   const [userId, setUserId] = useState('001');
   const [taskFilter, setTaskFilter] = useState('new');
@@ -76,6 +78,50 @@ const Popup = ({ onClose }) => {
    }
   }, [userId]);
 
+  useEffect(() => { 
+    const fetchRefTaskData = async () => {
+      try {
+        const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/bonustask/bonuscountref/${userId}`);
+        const ref = response.data;
+        setRefTask(ref);
+
+        console.log('ref', ref);
+
+      } catch (error) {
+        console.error('Error fetching special task data:', error);
+        setError('Error fetching special task data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchRefTaskData();
+   }
+  }, [userId]);
+
+  useEffect(() => { 
+    const fetchCheckTaskData = async () => {
+      try {
+        const response = await axios.get(`https://lunarapp.thelunarcoin.com/backend/api/bonustask/taskcheck/${userId}`);
+        const taskcheck = response.data;
+        setCheckTask(taskcheck);
+
+        console.log('taskcheck', taskcheck);
+
+      } catch (error) {
+        console.error('Error fetching special task data:', error);
+        setError('Error fetching special task data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchCheckTaskData();
+   }
+  }, [userId]);
+
   const saveUserData = useCallback(async () => {
     if (userId && userData) {
       try {  
@@ -108,23 +154,27 @@ const Popup = ({ onClose }) => {
         taskId,
       });
      
-  
       setTimeout(() => {
         setLoadingTask(null);
   
-        // Update the specific task's status to "claim"
-        setSpecialTask(prevTasks => prevTasks.map(task => 
-          task.taskId === taskId ? { ...task, status: 'complete' } : task
-        ));
+        // Update the specific task's status to "complete"
+        setSpecialTask(prevTasks => 
+          prevTasks.map(task => 
+            task.taskId === taskId ? { ...task, status: 'complete' } : task
+          )
+        );
         
-   }, 20000);
+        // Call setCheckTask after task status has been changed
+        setCheckTask([]);
+        
+      }, 20000);
+  
     } catch (error) {
       console.error('Error starting task:', error);
       setLoadingTask(null);
     }
   };
-
-
+     
   const filteredTasks = specialTask.filter(task => {
     const taskStatus = task.status
     if (taskFilter === 'completed') {
@@ -154,10 +204,11 @@ const Popup = ({ onClose }) => {
           />
         </div>
         <p className="text-muted-foreground mb-2">
-          Create your Data Avatar and click Memecoin generator in ForU app & connect Wallet in Blum to be eligible for
-          future airdrop from ForU.
+        We're excited to launch our Lunar Astronauts Crypto Giveaway! To celebrate our platform,
+        we're giving away $100,000 worth of cryptocurrency to participants who complete simple tasks.
+        Plus, earn $15 for each friend you refer!<br/> Don’t miss out on your chance to win!
         </p>
-        <p className=''> 0/5 Invite </p>
+        <p> {refTask}/5 Invite </p>
   
         <div className="relative flex justify-center w-full mt-4">
           <button 
@@ -181,17 +232,17 @@ const Popup = ({ onClose }) => {
           {filteredTasks.length > 0 ? (
             filteredTasks.map((task) => {
               const taskStatus = task.status;
-              
+  
               // Determine the logo based on task status
               const taskLogo = taskStatus === 'complete' ? logo : taskLogos[task.taskId] || ''; 
   
               return (
-                <div key={task.id} className=" text-sm bg-opacity-10 rounded-xl flex justify-between items-center">
+                <div key={task.id} className="text-sm bg-opacity-10 rounded-xl flex justify-between items-center">
                   <div className="flex items-center space-x-3">
-                    <div className='bg-hy rounded-3xl'>
+                    <div className="bg-hy rounded-3xl">
                       <img aria-hidden="true" alt="task-icon" src={taskLogo} className="m-2 w-6 h-6" />
                     </div>
-                    <div className='flex text-left flex-col'>
+                    <div className="flex text-left flex-col">
                       <p className="font-bold text-white">{task.title}</p>
                     </div>
                   </div>
@@ -219,28 +270,32 @@ const Popup = ({ onClose }) => {
                     )}
                   </div>
                 </div>
-              )
+              );
             })
           ) : (
-            <div>No special tasks available.</div>
+            checkTask === 'Task is completed' && (
+              <div className="flex flex-row justify-between items-center mt-4">
+                <input
+                  type="text"
+                  id="referralName"
+                  name="Wallet Address"
+                  className="border bg-da w-full p-1 rounded-lg"
+                  placeholder="Wallet Address"
+                />
+                <button className="bg-primary text-primary-foreground hover:bg-primary/80 py-1 px-3 rounded-md">
+                  Submit
+                </button>
+              </div>
+            )
           )}
         </div>
   
-        <div className="flex flex-row justify-between items-center mt-4">
-          <input
-            type="text"
-            id="referralName"
-            name="Wallet Address"
-            className="border bg-da w-full p-1 rounded-lg"
-            placeholder="Wallet Address"
-          />
-          <button className="bg-primary text-primary-foreground hover:bg-primary/80 py-1 px-3 rounded-md">
-            Submit
-          </button>
-        </div>
+       
+  
       </div>
     </div>
   );
+  
   
 };
 
