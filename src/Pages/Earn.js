@@ -5,12 +5,25 @@ import logo from './logo.png';
 import gift from './gift.png';
 import bit from './bitcoin-03.png';  
 import ClipLoader from 'react-spinners/ClipLoader';
+import Popup from './Popup';
 
 const Earn = () => {
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState('743737380');
   const [username, setUserName] = useState(null);
   const [hasClaimed, setHasClaimed] = useState(false); // State to track if claimed
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isContentHidden, setIsContentHidden] = useState(false);
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+    setIsContentHidden(true); // Hide the content
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setIsContentHidden(false); // Show the content again
+  };
 
   useEffect(() => {
     // Check if Telegram WebApp is available
@@ -123,22 +136,23 @@ const Earn = () => {
 
       <div className="bg-golden p-4 rounded-xl flex justify-center items-center shadow-lg">
         
-      <div className="flex flex-col space-y-4 items-center ">
-  <div className='items-center flex-col flex'>
-     <p className='text-2xl font-normal w-full'>3 weeks referral campaign</p>
-  <p className=''>$5 per referral</p>  
-  </div>
-  <input
-    type="text"
-    id="referralName"
-    name="Wallet Address"
-    className="border bg-da w-full p-2 rounded-lg"
-    placeholder="Wallet Address"
-  />
-  <button className="w-full mt-4 p-2 bg-custom text-white rounded-lg">
-    Submit
-  </button>
-</div>
+      <div className="flex w-full bg-sinc bg-opacity-10 pl-4 pt-2 pb-2 flex-col rounded-3xl">
+      {/* Conditionally render the main content */}
+      {!isContentHidden && (
+        <div className='flex flex-col'>
+          <div className='text-left ml-4 space-y-2 flex-col flex'>
+            <p className='text-xl font-normal w-full'>🚀 Lunar Astronauts </p>
+            <p className='text-xl font-normal w-full'>Crypto Giveaway Campaign! 🚀✨</p>
+          </div>
+          <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-golden-moon text-white rounded-2xl">
+            Open
+          </button>
+        </div>
+      )}
+
+      {/* Conditionally render the ReferralPopup component */}
+      {isPopupOpen && <Popup onClose={handleClosePopup} />}
+    </div>
 
       </div>
 
@@ -146,7 +160,7 @@ const Earn = () => {
 
       <div className="w-full max-w-md rounded-3xl bg-darkGray fixed bottom-0 left-0 flex justify-around py-1 z-20">
         <Footer />
-      </div>
+      </div>                   
     </div>
   );
 };

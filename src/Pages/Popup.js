@@ -5,7 +5,7 @@ import youtube from './youtube.png'
 import twitter from './twitter.png'
 import axios from 'axios';
 import telegram  from './telegram.png';
-import frame from './Frame.png'
+import frame from './Frame.jpg'
 
 const Popup = ({ onClose }) => {
   const [specialTask, setSpecialTask] = useState([]);
