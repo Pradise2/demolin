@@ -12,7 +12,7 @@ const Popup = ({ onClose }) => {
   const [refTask, setRefTask] = useState(0);
   const [checkTask, setCheckTask] = useState([]);
   const [userData, setUserData] = useState({ TasksStatus: {}, TasksComplete: {} });
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('001');
   const [taskFilter, setTaskFilter] = useState('new');
   const [showRCTasks, setShowRCTasks] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -208,7 +208,7 @@ const Popup = ({ onClose }) => {
 </p>
 <ul className='text-left mb-2'>
     <li>🔹 Complete tasks to unlock rewards</li>
-    <li>🔹 Refer 16 friends or more to earn an additional $20 bonus!</li>
+    <li>🔹 Refer 16 friends and above to earn $1 per referral</li>
 </ul>
 <p>Don’t miss out on this opportunity! Start completing tasks and sharing with friends today! 🌕</p>
 <p className='text-golden-moon text-center' >{refTask} out of 5 invites completed</p>

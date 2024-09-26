@@ -141,7 +141,7 @@ const Earn = () => {
         <div className='flex flex-col'>
           <div className='text-left ml-4 space-y-2 flex-col flex'>
             <p className='text-xl font-normal w-full'>🚀 Lunar Astronauts 
-              <br/> Usdt Airdrop Campaign! 🚀✨ </p>
+              <br/> $15 Airdrop Campaign! 🚀✨ </p>
           </div>
           <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-golden-moon text-white rounded-2xl">
             Open
