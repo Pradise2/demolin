@@ -6,8 +6,10 @@ import twitter from './twitter.png'
 import axios from 'axios';
 import telegram  from './telegram.png';
 import frame from './Frame.jpg'
+import add from './add.png' 
 
 const Popup = ({ onClose }) => {
+  const [copied, setCopied] = useState(false);
   const [specialTask, setSpecialTask] = useState([]);
   const [refTask, setRefTask] = useState(0);
   const [checkTask, setCheckTask] = useState([]);
@@ -37,6 +39,32 @@ const Popup = ({ onClose }) => {
     '14': youtube,
     '15': youtube,
     '16': youtube
+  };
+
+  const copyToClipboard = () => {
+    const reflink = `https://t.me/ThelunarCoin_bot?start=ref_${userId}`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(reflink).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1000);
+      }).catch(err => {
+        console.error('Failed to copy text:', err);
+      });
+    } else {
+      const textArea = document.createElement('textarea');
+      textArea.value = reflink;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+      document.body.removeChild(textArea);
+    }
   };
 
   const initializeUserId = useCallback(() => {
@@ -237,7 +265,9 @@ const Popup = ({ onClose }) => {
   
               // Determine the logo based on task status
               const taskLogo = taskStatus === 'complete' ? logo : taskLogos[task.taskId] || ''; 
-  
+           
+           
+            
               return (
                 <div key={task.id} className="text-sm bg-opacity-10 rounded-xl flex justify-between items-center">
                   <div className="flex items-center space-x-3">
@@ -272,6 +302,7 @@ const Popup = ({ onClose }) => {
                     )}
                   </div>
                 </div>
+                
               );
             })
           ) : (
@@ -286,7 +317,22 @@ const Popup = ({ onClose }) => {
             )
           )}
         </div>
-  
+        <div className="text-sm mt-2 bg-opacity-10 rounded-xl flex justify-between items-center">
+              <div className="flex items-center space-x-3">
+                <div className="bg-hy rounded-3xl">
+                  <img aria-hidden="true" alt="task-icon" src={add} className="m-2 w-6 h-6" />
+                </div>
+                <div className="flex text-left flex-col">
+                  <p className="font-bold text-white">Invite {refTask} out of 5</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+              <button className="bg-sinc bg-opacity-10 p-2 rounded-lg" onClick={copyToClipboard}>
+          {copied ? <span>Copied!</span> : <span>Copy</span>}
+        </button>
+               
+              </div>
+            </div>
        
   
       </div>

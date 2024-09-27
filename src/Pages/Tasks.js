@@ -26,17 +26,15 @@ const Tasks = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dailyTask, setDailyTask] = useState([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isContentHidden, setIsContentHidden] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleOpenPopup = () => {
     setIsPopupOpen(true);
-    setIsContentHidden(true); // Hide the content
   };
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    setIsContentHidden(false); // Show the content again
   };
 
 
@@ -400,7 +398,7 @@ const Tasks = () => {
       {!isContentHidden && (
         <div className='flex flex-col'>
           <div className='text-left ml-4 space-y-2 flex-col flex'>
-            <p className='text-xl font-normal w-full'>Lunar Astronauts </p>
+            <p className='text-xl font-normal w-full'>🚀 Lunar Astronauts </p>
             <p className='text-xl font-normal w-full'>Crypto Giveaway Campaign! 🚀✨</p>
           </div>
           <button onClick={handleOpenPopup} className="w-16 m-4 p-2 bg-golden-moon text-white rounded-2xl">
