@@ -310,7 +310,7 @@ const Popup = ({ onClose }) => {
                   <img aria-hidden="true" alt="task-icon" src={add} className="m-2 w-6 h-6" />
                 </div>
                 <div className="flex text-left flex-col">
-                  <p className="font-bold text-white">Invite {refTask} out of 5</p>
+                  <p className="font-bold text-white">{refTask} out of 5 invites completed</p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
