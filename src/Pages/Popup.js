@@ -24,21 +24,10 @@ const Popup = ({ onClose }) => {
   const [loadingTask, setLoadingTask] = useState(null);
 
   const taskLogos = {
-    '1': youtube,
-    '2': facebook,
-    '3': logo,
-    '4': twitter,
-    '5': youtube,
-    '6': youtube,
-    '7': youtube,
-    '8': youtube,
-    '9': youtube,
-    '10': youtube,
-    '11': telegram,
-    '12': twitter,
-    '14': youtube,
-    '15': youtube,
-    '16': youtube
+    '1': telegram,
+    '2': youtube,
+    '3': facebook,
+    '4': twitter
   };
 
   const copyToClipboard = () => {
@@ -263,10 +252,8 @@ const Popup = ({ onClose }) => {
             filteredTasks.map((task) => {
               const taskStatus = task.status;
   
-              // Determine the logo based on task status
+            // Determine the logo based on task status
               const taskLogo = taskStatus === 'complete' ? logo : taskLogos[task.taskId] || ''; 
-           
-           
             
               return (
                 <div key={task.id} className="text-sm bg-opacity-10 rounded-xl flex justify-between items-center">
@@ -329,12 +316,9 @@ const Popup = ({ onClose }) => {
               <div className="flex items-center space-x-2">
               <button className="bg-sinc bg-opacity-10 p-2 rounded-lg" onClick={copyToClipboard}>
           {copied ? <span>Copied!</span> : <span>Copy</span>}
-        </button>
-               
-              </div>
+        </button> 
+       </div>
             </div>
-       
-  
       </div>
     </div>
   );
